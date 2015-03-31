@@ -200,8 +200,7 @@ class Ship extends FlxSpriteGroup
 	{
 		return decision;
 	}
-	
-	
+		
 	///
 	//Tato metoda vypočte a vrátí hodnotu útoku. Viz pravidlo v OneNote
 	///
@@ -236,6 +235,7 @@ class Ship extends FlxSpriteGroup
 	{
 		return currentShield;
 	}
+	
 	///
 	//Tato metoda vrací hodnotu štítu pro použití ve vyhodnocení střetu.
 	///

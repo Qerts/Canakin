@@ -45,29 +45,7 @@ class PlayState extends FlxState
 		add(enemy);
 		add(player);
 		
-		
-		//Buttons
-		buttonAttack = new FlxButton(200, 300, "Attack", AttackButton);
-		add(buttonAttack);
-		buttonBoost = new FlxButton(440, 300, "Boost", BoostButton);
-		add(buttonBoost);
-		buttonBoostExit = new FlxButton(440, 350, "Back", BoostExitButton);
-		buttonBoostExit.visible = false;
-		add(buttonBoostExit);
-		buttonBoostHP = new FlxButton(200, 300, "Hull", BoostHPButton);
-		buttonBoostHP.visible = false;
-		add(buttonBoostHP);
-		buttonBoostS = new FlxButton(440, 300, "Shield", BoostSButton);
-		buttonBoostS.visible = false;
-		add(buttonBoostS);
-		buttonBoostSR = new FlxButton(200, 350, "Shield recovery", BoostSButton);
-		buttonBoostSR.visible = false;
-		add(buttonBoostSR);
-		buttonEvade = new FlxButton(200, 350, "Evade",BoostSRButton);
-		add(buttonEvade);
-		
-		
-				
+		createButtons();		
 	}
 
 	
@@ -199,6 +177,38 @@ class PlayState extends FlxState
 		buttonBoostS.visible = false;
 		buttonBoostSR.visible = false;
 		buttonEvade.visible = true;
+	}
+	
+	private function createButtons():Void
+	{
+		//Buttons
+		buttonAttack = new FlxButton(0,0, "Attack", AttackButton);
+		buttonAttack.setPosition(FlxG.width * 0.2, FlxG.height * 0.6);
+		add(buttonAttack);
+		
+		buttonBoost = new FlxButton(0, 0, "Boost", BoostButton);
+		buttonBoost.setPosition(FlxG.width*0.8-buttonBoost.width, FlxG.height * 0.6);
+		add(buttonBoost);
+		
+		buttonBoostExit = new FlxButton(440, 350, "Back", BoostExitButton);
+		buttonBoostExit.visible = false;
+		add(buttonBoostExit);
+		
+		buttonBoostHP = new FlxButton(200, 300, "Hull", BoostHPButton);
+		buttonBoostHP.visible = false;
+		add(buttonBoostHP);
+		
+		buttonBoostS = new FlxButton(440, 300, "Shield", BoostSButton);
+		buttonBoostS.visible = false;
+		add(buttonBoostS);
+		
+		buttonBoostSR = new FlxButton(200, 350, "Shield recovery", BoostSButton);
+		buttonBoostSR.visible = false;
+		add(buttonBoostSR);
+		
+		buttonEvade = new FlxButton(0,0, "Evade", BoostSRButton);
+		buttonEvade.setPosition(FlxG.width*0.8-buttonBoost.width, FlxG.height * 0.7);
+		add(buttonEvade);
 	}
 //#endregion
 }

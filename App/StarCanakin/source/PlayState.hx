@@ -63,9 +63,15 @@ class PlayState extends FlxState
 		
 		//pro kontrolu hráčovy energie
 		checkBoost();
+		//pro kontrolu cooldownů
+		checkCooldowns();
 		//pokud oba mají status waiting, tak v této třídě porběhne vyhodnocení akcí
 		if (enemy.status == Status.WAITING && player.status == Status.WAITING) 
 		{
+			//u obou lodí je zavolána funkce pro snížení případných cooldownů
+			player.DecreaseCooldowns();
+			enemy.DecreaseCooldowns();
+			
 			//je načtena a provedena akce enemy
 			var eDMG:Int = 0;
 			var eEVADATION:Float = 1;
@@ -121,9 +127,7 @@ class PlayState extends FlxState
 			enemy.DoDamage(pDMG);
 
 			
-			//u obou lodí je zavolána funkce pro snížení případných cooldownů
-			player.DecreaseCooldowns();
-			enemy.DecreaseCooldowns();
+			
 			//nastavit obě lodě na done			
 			enemy.status = Status.DONE;
 			player.status = Status.DONE;
@@ -243,6 +247,17 @@ class PlayState extends FlxState
 		if (player.GetEnergyValue() == 0 ) 
 		{
 			buttonBoost.visible = false;
+		}
+	}
+	private function checkCooldowns()
+	{
+		if (player.CooldownForEvade > 0)
+		{
+			buttonEvade.visible = false;
+		}
+		else 
+		{
+			buttonEvade.visible = true;
 		}
 	}
 //}

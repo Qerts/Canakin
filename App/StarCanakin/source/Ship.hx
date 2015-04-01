@@ -151,13 +151,14 @@ class Ship extends FlxSpriteGroup
 	 */
 	public function Evade():Float
 	{
+		CooldownForEvade = 1;
 		if ((FlxRandom.intRanged(1,100) + luck) > 75) 
 		{
 			return 0.0;
 		}else 
 		{
 			return 0.5;
-		}
+		}		
 	}
 	///
 	//Tato metoda vrací hodnotu štítu pro použití ve vyhodnocení střetu.
@@ -208,10 +209,11 @@ class Ship extends FlxSpriteGroup
 		}
 		
 	}	
-	///
-	//Tato metoda by měla být použita pro boostnutí vlastností. Její první vstupní parametr je vlastnost, která bude boostnuta. 
-	//Její druhý parametr je příznak, zda použít boost jen dočasně nebo trvale. Druhá možnost je určena pro použití v lvlování.	
-	///
+	/**
+	 * Tato metoda by měla být použita pro boostnutí vlastností nebo zvýšení vlastností při levelování.
+	 * @param	statName vlastnost, která bude navýšena
+	 * @param	temporary zda je vlastnost dočasná nebo trvalá, nebo-li zda se jedná o boost nebo level
+	 */
 	public function Boost(statName:StatName, temporary:Bool)
 	{
 		if (currentEnergy < 1) 
@@ -225,21 +227,27 @@ class Ship extends FlxSpriteGroup
 			{
 				case StatName.EnergyLevel:
 					energyLevelTmp++;
+					energyLevel++;
 					currentEnergy--;
 				case StatName.HealthPoints:
 					hitpointsTmp++;
+					hitpoints++;
 					currentEnergy--;
 				case StatName.Luck:
 					luckTmp++;
+					luck++;
 					currentEnergy--;
 				case StatName.ShieldPoints:
 					shieldTmp++;
+					shield++;
 					currentEnergy--;
 				case StatName.ShieldRecovery:
 					shieldRecoveryTmp++;
+					shieldRecovery++;
 					currentEnergy--;
 				case StatName.WeaponPower:
 					weaponPowerTmp++;	
+					weaponPower++;
 					currentEnergy--;
 			}
 		}else 

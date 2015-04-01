@@ -65,6 +65,17 @@ class Enemy extends Ship
 	
 	private function decide():Void
 	{
+		//randomDecide();
+		dumbDecide();
+		//smartDecide();
+		//genuineDecide();
+	}
+	
+	/**
+	 * Náhodně volené volby nepřítelské lodi.
+	 */
+	private function randomDecide() 
+	{
 		if (status == Status.STARTING) 
 		{
 			//pro účely testování je nastaveno na random
@@ -98,10 +109,74 @@ class Enemy extends Ship
 						{
 							decide();
 						}
-					case 5:
-						decision = Decision.EVADE;		
+					case 5:						
+						if (CooldownForEvade > 0) 
+						{
+							decide();
+						}else 
+						{
+							decision = Decision.EVADE;	
+						}
 				}
 			}
 		}
+	}
+	/**
+	 * Rozhodování probíhá pseudonáhodně. Snaží se spíše útočit, než uhýbat.
+	 */
+	private function dumbDecide() 
+	{
+		if (status == Status.STARTING) 
+		{
+			if (decision == Decision.NOTDECIDED) 
+			{
+				var top:Int = FlxRandom.intRanged(1, 5);
+				switch (FlxRandom.intRanged(1, top)) 
+				{
+					case 1:
+						decision = Decision.ATTACK;
+					case 2:
+						decision = Decision.EVADE;		
+					case 3:
+						if (currentEnergy > 0) 
+						{
+							decision = Decision.BOOSTSHIELD;
+						}else
+						{
+							decide();
+						}
+					case 4:
+						if (currentEnergy > 0) 
+						{
+							decision = Decision.BOOSTSHIELDRECOVERY;
+						}else
+						{
+							decide();
+						}
+					case 5:
+						if (currentEnergy > 0) 
+						{
+							decision = Decision.BOOSTHP;
+						}else
+						{
+							decide();
+						}
+				}
+			}
+		}
+	}
+	/**
+	 * Rozhodování má určitou strategii, založenou na počátečních statech hráče.
+	 */
+	private function smartDecide() 
+	{
+		
+	}
+	/**
+	 * Rozhodování je založeno na aktuálních statech hráče.
+	 */
+	private function genuineDecide()
+	{
+		 
 	}
 }

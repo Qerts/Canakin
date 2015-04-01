@@ -3,6 +3,7 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.text.FlxText;
+import flixel.text.FlxTextField;
 import flixel.ui.FlxButton;
 import flixel.util.FlxMath;
 import flixel.addons.display.FlxStarField;
@@ -25,6 +26,7 @@ class PlayState extends FlxState
 	var buttonBoostS:FlxButton;
 	var buttonBoostSR:FlxButton;
 	var buttonBoostExit:FlxButton;
+
 		
 	override public function create():Void
 	{
@@ -37,15 +39,13 @@ class PlayState extends FlxState
 		
 		//FlxG.debugger.drawDebug = true;
 		//inicializace komponent lvlu
-		player = Player.getPlayer();	//pozor, singleton, při každé smrti je nutné objekt zničit nebo vynulovat	
-		
-		
+		player = Player.getPlayer();	//pozor, singleton, při každé smrti je nutné objekt zničit nebo vynulovat			
 		enemy = new Enemy();
 		
 		add(enemy);
 		add(player);
 		
-		createButtons();		
+		createButtons();	
 	}
 
 	
@@ -137,7 +137,7 @@ class PlayState extends FlxState
 	
 	
 	
-//#region Button Methods
+//{ BUTTON METHODS
 	private function AttackButton()
 	{
 		player.SetDecision(Decision.ATTACK);
@@ -210,5 +210,5 @@ class PlayState extends FlxState
 		buttonEvade.setPosition(FlxG.width*0.8-buttonBoost.width, FlxG.height * 0.7);
 		add(buttonEvade);
 	}
-//#endregion
+//}
 }

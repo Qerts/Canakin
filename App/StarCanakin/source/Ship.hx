@@ -47,19 +47,7 @@ class Ship extends FlxSpriteGroup
 		CooldownForEvade = 0;
 		decision = Decision.NOTDECIDED;
 		
-		currentEnergy = 0;
-		currentHP = 0;
-		currentShield = 0;
-		
-		hitpointsTmp = 0;
-		shieldTmp = 0;
-		shieldRecoveryTmp = 0;
-		weaponPowerTmp = 0;
-		energyLevelTmp = 0;
-		luckTmp = 0;
-		
-		isAlive = true;
-		level = 1;					//pro testovací účely, smazat
+						//pro testovací účely, smazat
 		initStats();
 	}
 	
@@ -177,7 +165,7 @@ class Ship extends FlxSpriteGroup
 					}
 			}
 		}
-		
+		*/
 		currentEnergy = energyLevel;
 		currentHP = hitpoints;
 		currentShield = shield;
@@ -190,7 +178,9 @@ class Ship extends FlxSpriteGroup
 		luckTmp = 0;
 		
 		isAlive = true;
-		*/
+		
+		this.level = level;
+		
 	}
 	
 	///
@@ -289,6 +279,10 @@ class Ship extends FlxSpriteGroup
 	///
 	public function Boost(statName:StatName, temporary:Bool)
 	{
+		if (currentEnergy < 1) 
+		{
+			return;
+		}
 		if (temporary) 
 		{
 			//dočasné přidělení bodů, zároveň odečte energii pro boostnutí

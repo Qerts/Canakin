@@ -8,6 +8,8 @@ import flixel.FlxG;
 import flixel.util.FlxVelocity;
 import flixel.util.FlxCollision;
 import flixel.FlxObject;
+import flixel.text.FlxTextField;
+
 
 /**
  * ...
@@ -19,6 +21,7 @@ class Enemy extends Ship
 	var ship:FlxSpriteGroup;
 	//var defaultShellPosition:FlxPoint;
 	
+	var testText:FlxTextField;
 	
 	
 	
@@ -41,11 +44,19 @@ class Enemy extends Ship
 		status = Status.WAITING;
 		
 		initStats(10);
-		trace(hitpoints,energyLevel,luck,weaponPower,shield,shieldRecovery);
+		trace(hitpoints, energyLevel, luck, weaponPower, shield, shieldRecovery);
+		
+		//testovací textfield
+		testText = new FlxTextField(540, 0, 100, "Enemy \nWeapon: " + weaponPower + "\nHP: " + currentHP + "/" + hitpoints + "\nShield: " + currentShield + "/" + shield + "\nShield recovery: " + shieldRecovery + "\nEnergy: " + currentEnergy +"/" + energyLevel + "\nLevel: " + level);
+		add(testText);
 	}
 	
 	override function update():Void
 	{
+		//vyplnění testovacího boxu
+		testText.text = "Enemy \nWeapon: " + weaponPower + "\nHP: " + currentHP + "/" + hitpoints + "\nShield: " + currentShield + "/" + shield + "\nShield recovery: " + shieldRecovery + "\nEnergy: " + currentEnergy +"/" + energyLevel + "\nLevel: " + level;
+		trace("Enemy shield:", currentShield, "/", shield);
+		
 		//pokud je starting, tak se přepne na deciding
 		if (status == Status.STARTING) 
 		{

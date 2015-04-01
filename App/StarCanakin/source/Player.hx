@@ -3,6 +3,7 @@ import flixel.FlxCamera;
 import flixel.FlxSprite;
 import flixel.group.FlxSpriteGroup;
 import flixel.FlxG;
+import flixel.text.FlxTextField;
 
 class Player extends Ship
 {
@@ -11,6 +12,7 @@ class Player extends Ship
 	var ship:FlxSpriteGroup;
 	
 	var cam:FlxCamera;
+	var testText:FlxTextField;
 	
 	public function new() 
 	{
@@ -24,7 +26,9 @@ class Player extends Ship
 		ship.setPosition(FlxG.width * 0.05, FlxG.height * 0.15);
 		status = Status.WAITING;
 		
-		
+		//testovací textfield
+		testText = new FlxTextField(0, 0, 100, "Player \nWeapon: " + weaponPower + "\nHP: " + currentHP + "/" + health + "\nShield:" + currentShield + "/" + shield + "\nShield recovery:" + shieldRecovery + "\nEnergy" + currentEnergy +"/" + energyLevel);
+		add(testText);
 	}
 	
 	public static inline function getPlayer():Player
@@ -38,7 +42,9 @@ class Player extends Ship
 	
 	override function update():Void
 	{
-		
+		//vyplnění testovacího boxu
+		testText.text = "Player \nWeapon: " + weaponPower + "\nHP: " + currentHP + "/" + hitpoints + "\nShield: " + currentShield + "/" + shield + "\nShield recovery: " + shieldRecovery + "\nEnergy: " + currentEnergy +"/" + energyLevel;
+
 		if (FlxG.mouse.justPressed)
 		{
 			FlxG.camera.flash(0.5);

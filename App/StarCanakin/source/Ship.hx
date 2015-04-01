@@ -208,10 +208,10 @@ class Ship extends FlxSpriteGroup
 		}		
 		return FlxRandom.intRanged(min, max);
 	}
-	///
-	//Tato metoda vypočte a vrátí hodnotu uhnutí, která je uvedena v rozmezí 1 - 10 a reprezentuje procenta.
-	//Overpower štěstí by mělo být řešeno omezením velikosti statu luck.
-	///
+	/**
+	 * Tato metoda vypočte a vrátí hodnotu uhnutí.
+	 * @return vrací float číslo 0-1, které určuje poměr uhnutí
+	 */
 	public function Evade():Float
 	{
 		if ((FlxRandom.intRanged(1,100) + luck) > 75) 
@@ -346,4 +346,6 @@ class Ship extends FlxSpriteGroup
 		trace(this.decision);
 		status = Status.WAITING;
 	}
+	
+	public function GetEnergyValue():Int { return currentEnergy; }
 }

@@ -22,9 +22,6 @@ class Enemy extends Ship
 	
 	var testText:FlxTextField;
 	
-	
-	
-	
 	public function new() 
 	{
 		super();

@@ -58,6 +58,9 @@ class PlayState extends FlxState
 	override public function update():Void
 	{
 		super.update();
+		
+		newGameForTest();
+		
 		//pro kontrolu hráčovy energie
 		checkBoost();
 		//pokud oba mají status waiting, tak v této třídě porběhne vyhodnocení akcí
@@ -142,6 +145,21 @@ class PlayState extends FlxState
 		
 	}
 	
+	private function newGameForTest():Void
+	{
+		if (enemy.GetHull() < 1 || player.GetHull() < 1)
+		{
+			enemy.destroy();
+			player.destroy();
+			
+			player = new Player();	//pozor, singleton, při každé smrti je nutné objekt zničit nebo vynulovat			
+			enemy = new Enemy();
+			
+			add(player);
+			add(enemy);
+			
+		}
+	}
 	
 	
 //{ BUTTON METHODS

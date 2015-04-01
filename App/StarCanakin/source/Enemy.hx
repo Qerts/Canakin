@@ -19,7 +19,6 @@ class Enemy extends Ship
 {
     var random:Int;
 	var ship:FlxSpriteGroup;
-	//var defaultShellPosition:FlxPoint;
 	
 	var testText:FlxTextField;
 	
@@ -29,12 +28,8 @@ class Enemy extends Ship
 	public function new() 
 	{
 		super();
-		random = FlxRandom.intRanged(1, 4);
-		
-		//defaultShellPosition = new FlxPoint(100, 100);
-		
+		random = FlxRandom.intRanged(1, 4);	
 		ship = new FlxSpriteGroup();
-		//ship.add(new FlxSprite("assets/images/starship_pattern.png"));
 		ship.add(ShipGenerator.getShip());
 		add(ship);
 		
@@ -98,31 +93,7 @@ class Enemy extends Ship
 				status = Status.WAITING;
 			}	
 		}
-		//zbytek ve waitingu se řeší v boardu
-		
-		
-		
-		/*
-		 * 
-		 * testovaci pohyb
-		if (FlxG.mouse.justReleased && shell.alive)
-		{
-			shell.kill();
-		}else if (FlxG.mouse.justReleased && !shell.alive)
-		{
-			shell.reset(defaultShellPosition.x,defaultShellPosition.y);
-		}
-		
-		if (FlxG.pixelPerfectOverlap(shell,enemy))
-		{
-			shell.kill();
-		}
-		
-		shell.x += 5;
-		
-		*/
-		
-		
+		//zbytek ve waitingu se řeší v boardu		
 	}
 	
 	

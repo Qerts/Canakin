@@ -53,17 +53,6 @@ class Ship extends FlxSpriteGroup
 	
 	private function initStats(level:Int = 1) 
 	{
-		/*
-		 * Rozdělování statsů
-		- HP - rozmezí 6(+lvl) - 8 (+lvl). Při přirozeném postupu hráče se HP zvyšují samostatně z každým lvl.
-		- Energy  - pouze 1 za bitvu ANEBO jestliže je HP rozmezí v dolní hranici tak energy je 2 a jestliže je v horní tak 1. Tzn na lvl 1 jestliže je 7 nebo 8 HP,energy je 2. Jestliže je 8 - 9 hp, energy je 1
-		- Luck - (návrh přejmenování na instinct) - 5 na začátku, s každým levelem se zvyšuje náhodně v rozmezí 2 - 4 (anebo 2 - 3 - možnost modifikace). Tento údaj je procento. Ještě nevím jestli luck má být pouze u hráče anebo i u nepřítele. Uvidíme
-		- 3 statsy - shield, shield recovery a weapon power - 10 + lvl bodů:
-		-  weapon power - dolní rozmezi 3 (+ lvl) - horní rozmezí - 5 (+lvl)
-		- Shield + shield recovery - bez rozmezí, minimální počet bodů je 2
-		*/
-		
-		
 		hitpoints = FlxRandom.intRanged(6 + level, 9 + level);
 		
 		if (hitpoints <= (9 + level)-2)
@@ -184,14 +173,8 @@ class Ship extends FlxSpriteGroup
 	public function GetHull():Int 
 	{
 		return currentHP;
-	}/*
-	///
-	//Tato metoda vrací hodnotu štítu pro použití ve vyhodnocení střetu.
-	///
-	public function GetEnergy():Int 
-	{
-		return currentEnergy;
-	}	*/
+	}
+	
 	/**
 	 * Tato metoda by měla být volána na začátku nebo konci každého kola pro obnovéení štítu v závislosti na shieldRecovery.
 	 */

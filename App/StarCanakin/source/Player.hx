@@ -19,7 +19,6 @@ class Player extends Ship
 		super();
 		
 		ship = new FlxSpriteGroup();
-		//ship.add(new FlxSprite("assets/images/starship_pattern.png"));
 		ship.add(ShipGenerator.getShip());
 		add(ship);
 		

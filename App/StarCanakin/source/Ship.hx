@@ -166,6 +166,7 @@ class Ship extends FlxSpriteGroup
 			}
 		}
 		*/
+		shield = Std.int(shield * level);
 		currentEnergy = energyLevel;
 		currentHP = hitpoints;
 		currentShield = shield;
@@ -197,12 +198,15 @@ class Ship extends FlxSpriteGroup
 	public function Attack():Int
 	{
 		trace(weaponPower, level);
+		var min:Int = weaponPower -1;
+		var max:Int = weaponPower +1;
 		//jestli projde critical hit (nastaveno na 10%)
 		if (FlxRandom.intRanged(luck, 100) <= 10) 
 		{
-			return FlxRandom.intRanged(weaponPower - 1, weaponPower + level);
-		}
-		return FlxRandom.intRanged(weaponPower - 1, weaponPowerTmp + 1);
+			max = weaponPower + level;
+			return FlxRandom.intRanged(min, max);
+		}		
+		return FlxRandom.intRanged(min, max);
 	}
 	///
 	//Tato metoda vypočte a vrátí hodnotu uhnutí, která je uvedena v rozmezí 1 - 10 a reprezentuje procenta.
@@ -240,38 +244,38 @@ class Ship extends FlxSpriteGroup
 	{
 		return currentEnergy;
 	}	*/
-	///
-	//Tato metoda by měla být volána na začátku nebo konci každého kola pro obnovéení štítu v závislosti na shieldRecovery.
-	///
-	private function rechargeShield()
+	/**
+	 * Tato metoda by měla být volána na začátku nebo konci každého kola pro obnovéení štítu v závislosti na shieldRecovery.
+	 */
+	public function RechargeShield()
 	{
 		currentShield += shieldRecovery;
-		if (currentEnergy > shield) 
+		if (currentShield > shield) 
 		{
 			currentShield = shield;
 		}
-	}/*
-	///
-	//Tato metoda by měla být volána na začátku nebo konci každého kola pro obnovéení energie.
-	///
-	private function rechargeEnergy()
-	{
-		currentEnergy++;
-		if (currentEnergy > energyLevel) 
-		{
-			currentEnergy = energyLevel;
-		}
-	}*/
-	///
-	//Tato metoda slouží k poškození lodi. Poškodí štít a pokud jej zničí a projde skrze, poškodí loď.
-	///
+	}
+	/**
+	 * Tato metoda slouží k poškození lodi. Poškodí štít a pokud jej zničí a projde skrze, poškodí loď.
+	 * @param	dmg intagerová hodnota čistého dmg, která bude rovnou počítána se štítem a HP dané lodi
+	 */
 	public function DoDamage(dmg:Int) 
 	{ 
-		currentShield =- dmg;
-		if (currentShield < 0) 
+		var sumHeatlth:Int = currentHP + currentShield - dmg;
+		if (dmg >= currentShield) 
 		{
-			currentHP += currentShield;
+			currentHP = currentHP + currentShield - dmg;
+			currentShield = 0;
+			if (currentHP <= 0) 
+			{
+				isAlive = false;
+			}
 		}
+		if (dmg < currentShield) 
+		{
+			currentShield -= dmg;
+		}
+		
 	}	
 	///
 	//Tato metoda by měla být použita pro boostnutí vlastností. Její první vstupní parametr je vlastnost, která bude boostnuta. 

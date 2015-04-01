@@ -24,10 +24,10 @@ class Player extends Ship
 		add(ship);
 		
 		ship.setPosition(FlxG.width * 0.05, FlxG.height * 0.15);
-		status = Status.WAITING;
+		status = Status.STARTING;
 		
 		//testovací textfield
-		testText = new FlxTextField(0, 0, 100, "Player \nWeapon: " + weaponPower + "\nHP: " + currentHP + "/" + health + "\nShield:" + currentShield + "/" + shield + "\nShield recovery:" + shieldRecovery + "\nEnergy" + currentEnergy +"/" + energyLevel);
+		testText = new FlxTextField(0, 0, 100, "Player \nWeapon: " + weaponPower + "\nHP: " + currentHP + "/" + hitpoints + "\nShield: " + currentShield + "/" + shield + "\nShield recovery: " + shieldRecovery + "\nEnergy: " + currentEnergy +"/" + energyLevel);
 		add(testText);
 	}
 	
@@ -59,7 +59,10 @@ class Player extends Ship
 		//pokud deciding, tak čeká na vstup od hráče a po přijetí se přepne an waiting
 		if (status == Status.DECIDING) 
 		{
-			status = Status.WAITING;
+			if (decision != Decision.NOTDECIDED) 
+			{
+				status = Status.WAITING;
+			}			
 		}
 		//zbytek ve waitingu se řeší v boardu
 	}

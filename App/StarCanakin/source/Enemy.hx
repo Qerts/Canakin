@@ -41,13 +41,12 @@ class Enemy extends Ship
 		ship.setPosition(FlxG.width * 0.95-ship.width,FlxG.height*0.15);
 		ship.angle = 180;
 		
-		status = Status.WAITING;
+		status = Status.STARTING;
 		
-		initStats(10);
-		trace(hitpoints, energyLevel, luck, weaponPower, shield, shieldRecovery);
+		initStats();
 		
 		//testovací textfield
-		testText = new FlxTextField(540, 0, 100, "Enemy \nWeapon: " + weaponPower + "\nHP: " + currentHP + "/" + hitpoints + "\nShield: " + currentShield + "/" + shield + "\nShield recovery: " + shieldRecovery + "\nEnergy: " + currentEnergy +"/" + energyLevel + "\nLevel: " + level);
+		testText = new FlxTextField(540, 0, 100, "Player \nWeapon: " + weaponPower + "\nHP: " + currentHP + "/" + hitpoints + "\nShield: " + currentShield + "/" + shield + "\nShield recovery: " + shieldRecovery + "\nEnergy: " + currentEnergy +"/" + energyLevel);
 		add(testText);
 	}
 	
@@ -55,7 +54,6 @@ class Enemy extends Ship
 	{
 		//vyplnění testovacího boxu
 		testText.text = "Enemy \nWeapon: " + weaponPower + "\nHP: " + currentHP + "/" + hitpoints + "\nShield: " + currentShield + "/" + shield + "\nShield recovery: " + shieldRecovery + "\nEnergy: " + currentEnergy +"/" + energyLevel + "\nLevel: " + level;
-		trace("Enemy shield:", currentShield, "/", shield);
 		
 		//pokud je starting, tak se přepne na deciding
 		if (status == Status.STARTING) 
@@ -68,11 +66,20 @@ class Enemy extends Ship
 					case 1:
 						decision = Decision.ATTACK;
 					case 2:
-						decision = Decision.BOOSTHP;
+						if (currentEnergy > 0) 
+						{
+							decision = Decision.BOOSTHP;
+						}
 					case 3:
-						decision = Decision.BOOSTSHIELD;
+						if (currentEnergy > 0) 
+						{
+							decision = Decision.BOOSTSHIELD;
+						}
 					case 4:
-						decision = Decision.BOOSTSHIELDRECOVERY;
+						if (currentEnergy > 0) 
+						{
+							decision = Decision.BOOSTSHIELDRECOVERY;
+						}
 					case 5:
 						decision = Decision.EVADE;
 						
@@ -86,7 +93,10 @@ class Enemy extends Ship
 		//pokud deciding, tak se rozhodne a přepne se na waiting
 		if (status == Status.DECIDING) 
 		{
-			status = Status.WAITING;
+			if (decision != Decision.NOTDECIDED) 
+			{
+				status = Status.WAITING;
+			}	
 		}
 		//zbytek ve waitingu se řeší v boardu
 		

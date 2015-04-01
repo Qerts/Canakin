@@ -107,66 +107,14 @@ class Ship extends FlxSpriteGroup
 			}
 		}
 		
-		/*
-		var lvlForSum:Int = Std.int(level / 2);
-		var pointsLeft:Int = 18 + level;				//body, které zbývají k rozdělení
-		
-		//připsání všem vlastnostem polovinu lvlu a 1, což je minimum	
-		hitpoints = 1 + lvlForSum;						
-		shield = 1 + lvlForSum;
-		shieldRecovery = 1 + lvlForSum;
-		weaponPower = 1 + lvlForSum;
-		energyLevel = 1 + lvlForSum;
-		luck = 1 + lvlForSum;
-		
-		//upsání přidaných bodů z pointsLeft
-		pointsLeft -= 6 + lvlForSum * 6;
-		
-		//random rovnoměrné rozhození bodů do všech vlastností tak, aby žádná neměla základ větší než 4
-		while (pointsLeft != 0) 
+		if (level == 1)
 		{
-			switch (FlxRandom.intRanged(1,6)) 
-			{
-				case 1:
-					if (hitpoints <= 4) 
-					{
-						hitpoints++;
-						pointsLeft--;
-					}
-				case 2:
-					if (shield <= 4) 
-					{
-						shield++;
-						pointsLeft--;
-					}
-				case 3:	
-					if (shieldRecovery <= 4) 
-					{
-						shieldRecovery++;
-						pointsLeft--;
-					}
-				case 4:
-					if (weaponPower <= 4) 
-					{
-						weaponPower++;
-						pointsLeft--;
-					}
-				case 5:
-					if (energyLevel <= 4) 
-					{
-						energyLevel++;
-						pointsLeft--;
-					}
-				case 6:	
-					if (luck <= 4) 
-					{
-						luck++;
-						pointsLeft--;
-					}
-			}
+			shield = Std.int(shield * 2);
+		}else
+		{
+			shield = Std.int(shield * level);
 		}
-		*/
-		shield = Std.int(shield * level);
+		
 		currentEnergy = energyLevel;
 		currentHP = hitpoints;
 		currentShield = shield;

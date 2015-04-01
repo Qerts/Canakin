@@ -58,13 +58,14 @@ class PlayState extends FlxState
 	override public function update():Void
 	{
 		super.update();
-		trace(player.GetDecision(), enemy.GetDecision());
+		//pro kontrolu hráčovy energie
+		checkBoost();
 		//pokud oba mají status waiting, tak v této třídě porběhne vyhodnocení akcí
 		if (enemy.status == Status.WAITING && player.status == Status.WAITING) 
 		{
 			//je načtena a provedena akce enemy
 			var eDMG:Int = 0;
-			var eEVADATION:Float = 0;
+			var eEVADATION:Float = 1;
 			var eCRIT:Bool = false;
 			var eHP:Int = 0;
 			var eSHIELD = 0;
@@ -72,6 +73,7 @@ class PlayState extends FlxState
 			{
 				case Decision.ATTACK:
 					eDMG = enemy.Attack();
+					trace("enemydmg:" + eDMG);
 				case Decision.EVADE:
 					eEVADATION = enemy.Evade();
 				case Decision.BOOSTHP:
@@ -86,16 +88,16 @@ class PlayState extends FlxState
 			}
 			//je načtena a provedena akce playera
 			var pDMG:Int = 0;
-			var pEVADATION:Float = 0;
+			var pEVADATION:Float = 1;
 			var pCRIT:Bool = false;
 			var pHP:Int = 0;
 			var pSHIELD = 0;
 			switch (player.GetDecision()) 
 			{
 				case Decision.ATTACK:
-					eDMG = player.Attack();
+					pDMG = player.Attack();
 				case Decision.EVADE:
-					eEVADATION = player.Evade();
+					pEVADATION = player.Evade();
 				case Decision.BOOSTHP:
 					player.Boost(StatName.HealthPoints, true);
 				case Decision.BOOSTSHIELD:
@@ -107,14 +109,15 @@ class PlayState extends FlxState
 				default: 
 					
 			}
+			trace("dmg - evadation - výpočet", eDMG, pEVADATION, Std.int(eDMG * pEVADATION), pDMG, eEVADATION, Std.int(pDMG * eEVADATION));
 			//útok enemy je snížen o evadation playera a poté je odečten od jeho statů
 			eDMG = Std.int(eDMG * pEVADATION);
 			player.DoDamage(eDMG);
 			//útok playera je snížen o evadation enemy a poté je odečten od jeho statů
 			pDMG = Std.int(pDMG * eEVADATION);
 			enemy.DoDamage(pDMG);
+
 			
-			trace(player.GetDecision(), enemy.GetDecision());
 			//u obou lodí je zavolána funkce pro snížení případných cooldownů
 			player.DecreaseCooldowns();
 			enemy.DecreaseCooldowns();
@@ -127,6 +130,10 @@ class PlayState extends FlxState
 			//nastavit obě lodě na nerozhodnutý stav
 			player.SetDecision(Decision.NOTDECIDED);
 			enemy.SetDecision(Decision.NOTDECIDED);
+			
+			//lodím jsou dobity štíty
+			player.RechargeShield();
+			enemy.RechargeShield();
 			
 			//pokud jsou dokončený všechny případné akce stavu done, přepne se znovu na starting
 			enemy.status = Status.STARTING;
@@ -206,9 +213,19 @@ class PlayState extends FlxState
 		buttonBoostSR.visible = false;
 		add(buttonBoostSR);
 		
-		buttonEvade = new FlxButton(0,0, "Evade", BoostSRButton);
+		buttonEvade = new FlxButton(0,0, "Evade", EvadeButton);
 		buttonEvade.setPosition(FlxG.width*0.8-buttonBoost.width, FlxG.height * 0.7);
 		add(buttonEvade);
+	}
+	/**
+	 * Pokud hráč nemá žádnou volnou energii, zmizí mu boostovací tlačítko.
+	 */
+	private function checkBoost()
+	{
+		if (player.GetEnergyValue() == 0 ) 
+		{
+			buttonBoost.visible = false;
+		}
 	}
 //}
 }

@@ -45,11 +45,6 @@ class Player extends Ship
 		//vyplnění testovacího boxu
 		testText.text = "Player \nWeapon: " + weaponPower + "\nHP: " + currentHP + "/" + hitpoints + "\nShield: " + currentShield + "/" + shield + "\nShield recovery: " + shieldRecovery + "\nEnergy: " + currentEnergy +"/" + energyLevel;
 
-		if (FlxG.mouse.justPressed)
-		{
-			FlxG.camera.flash(0.5);
-			FlxG.camera.shake(0.005);
-		}
 		//pokud je starting, tak se přepne na deciding
 		if (status == Status.STARTING) 
 		{

@@ -51,6 +51,23 @@ class Enemy extends Ship
 		testText.text = "Enemy \nWeapon: " + weaponPower + "\nHP: " + currentHP + "/" + hitpoints + "\nShield: " + currentShield + "/" + shield + "\nShield recovery: " + shieldRecovery + "\nEnergy: " + currentEnergy +"/" + energyLevel + "\nLevel: " + level;
 		
 		//pokud je starting, tak se přepne na deciding
+		decide();
+		
+		status = Status.DECIDING;
+		
+		//pokud deciding, tak se rozhodne a přepne se na waiting
+		if (status == Status.DECIDING) 
+		{
+			if (decision != Decision.NOTDECIDED) 
+			{
+				status = Status.WAITING;
+			}	
+		}
+		//zbytek ve waitingu se řeší v boardu		
+	}
+	
+	private function decide():Void
+	{
 		if (status == Status.STARTING) 
 		{
 			//pro účely testování je nastaveno na random
@@ -64,37 +81,30 @@ class Enemy extends Ship
 						if (currentEnergy > 0) 
 						{
 							decision = Decision.BOOSTHP;
+						}else
+						{
+							decide();
 						}
 					case 3:
 						if (currentEnergy > 0) 
 						{
 							decision = Decision.BOOSTSHIELD;
+						}else
+						{
+							decide();
 						}
 					case 4:
 						if (currentEnergy > 0) 
 						{
 							decision = Decision.BOOSTSHIELDRECOVERY;
+						}else
+						{
+							decide();
 						}
 					case 5:
-						decision = Decision.EVADE;
-						
-						
-					default:
-						
+						decision = Decision.EVADE;		
 				}
 			}
-			status = Status.DECIDING;
 		}
-		//pokud deciding, tak se rozhodne a přepne se na waiting
-		if (status == Status.DECIDING) 
-		{
-			if (decision != Decision.NOTDECIDED) 
-			{
-				status = Status.WAITING;
-			}	
-		}
-		//zbytek ve waitingu se řeší v boardu		
 	}
-	
-	
 }

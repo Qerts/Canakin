@@ -65,7 +65,7 @@ class Ship extends FlxSpriteGroup
 	 * vytvori vlastnosti lode
 	 * @param level vytvorene lode
 	 */
-	private function initStats(level:Int = 1) 
+	private function initStats(level:Int = 10) 
 	{
 		hitpoints = FlxRandom.intRanged(6 + level, 9 + level);
 		
@@ -193,7 +193,9 @@ class Ship extends FlxSpriteGroup
 	 */
 	public function RechargeShield()
 	{
-		
+		var tmpRechargeRate:Float = shieldRecovery / 10;
+		var tmp:Float = ((shield - currentShield) * tmpRechargeRate);
+		currentShield = Math.round(currentShield + ((shield - currentShield) * tmpRechargeRate));
 	}
 	
 	/**

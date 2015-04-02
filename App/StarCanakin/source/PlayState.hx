@@ -75,6 +75,8 @@ class PlayState extends FlxState
 			player.DecreaseCooldowns();
 			enemy.DecreaseCooldowns();
 			
+			trace(" ");
+			
 			//je načtena a provedena akce enemy
 			var eDMG:Int = 0;
 			var eEVADATION:Float = 1;
@@ -84,7 +86,14 @@ class PlayState extends FlxState
 			switch (enemy.GetDecision()) 
 			{
 				case Decision.ATTACK:
-					eDMG = enemy.Attack();
+					if (player.GetDecision() == Decision.EVADE) 
+					{
+						eDMG = enemy.Attack();
+						trace("Enemy attack without crit: " + eDMG);
+					}else{
+						eDMG = enemy.Attack(true);
+						trace("Enemy attack with crit: " + eDMG);
+					}
 				case Decision.EVADE:
 					eEVADATION = enemy.Evade();
 				case Decision.BOOSTHP:
@@ -106,7 +115,14 @@ class PlayState extends FlxState
 			switch (player.GetDecision()) 
 			{
 				case Decision.ATTACK:
-					pDMG = player.Attack();
+					if (enemy.GetDecision() == Decision.EVADE) 
+					{
+						pDMG = player.Attack();
+						trace("Player attack without crit: " + pDMG);
+					}else{
+						pDMG = player.Attack(true);
+						trace("Player attack with crit: " + pDMG);
+					}
 				case Decision.EVADE:
 					pEVADATION = player.Evade();
 				case Decision.BOOSTHP:

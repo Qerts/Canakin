@@ -144,17 +144,23 @@ class Ship extends FlxSpriteGroup
 	///
 	//Tato metoda vypočte a vrátí hodnotu útoku. Viz pravidlo v OneNote
 	///
-	public function Attack():Int
+	public function Attack(critEnabled:Bool = false):Int
 	{
 		var min:Int = weaponPower -1;
 		var max:Int = weaponPower +1;
-		//jestli projde critical hit (nastaveno na 10%)
-		if (FlxRandom.intRanged(luck, 100) <= 10) 
+		if (critEnabled) 
 		{
-			max = weaponPower + level;
+			//jestli projde critical hit (nastaveno na luck)
+			if (FlxRandom.intRanged(luck, 100) <= luck) 
+			{
+				max = weaponPower + level;
+				return FlxRandom.intRanged(min, max);
+			}		
 			return FlxRandom.intRanged(min, max);
-		}		
-		return FlxRandom.intRanged(min, max);
+		}else 
+		{
+			return FlxRandom.intRanged(min, max);
+		}
 	}
 	/**
 	 * Tato metoda vypočte a vrátí hodnotu uhnutí.
@@ -205,6 +211,7 @@ class Ship extends FlxSpriteGroup
 	public function DoDamage(dmg:Int) 
 	{ 
 		var sumHeatlth:Int = currentHP + currentShield - dmg;
+		trace("DoDamage method: Damage recieved " + dmg + " current HP " + currentHP + " current shield " + currentShield);
 		if (dmg >= currentShield) 
 		{
 			currentHP = currentHP + currentShield - dmg;
@@ -218,6 +225,7 @@ class Ship extends FlxSpriteGroup
 		{
 			currentShield -= dmg;
 		}
+		trace("DoDamage method: Damage recieved " + dmg + " current HP after action " + currentHP + " current shield after action " + currentShield);
 		
 	}	
 	/**

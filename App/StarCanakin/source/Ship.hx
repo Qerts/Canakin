@@ -147,9 +147,10 @@ class Ship extends FlxSpriteGroup
 		if (critEnabled) 
 		{
 			//jestli projde critical hit (nastaveno na luck)
-			if (FlxRandom.intRanged(luck, 100) <= luck) 
+			if (FlxRandom.intRanged(0, 100) <= luck) 
 			{
 				max = weaponPower + level;
+				min = weaponPower + level;
 				return FlxRandom.intRanged(min, max);
 			}		
 			return FlxRandom.intRanged(min, max);
@@ -196,7 +197,7 @@ class Ship extends FlxSpriteGroup
 	 */
 	public function RechargeShield()
 	{
-		var tmpRechargeRate:Float = shieldRecovery / 20;
+		var tmpRechargeRate:Float = shieldRecovery / 15;
 		var tmp:Float = ((shield - currentShield) * tmpRechargeRate);
 		currentShield = Math.round(currentShield + ((shield - currentShield) * tmpRechargeRate));
 	}

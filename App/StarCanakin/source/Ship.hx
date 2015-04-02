@@ -306,6 +306,16 @@ class Ship extends FlxSpriteGroup
 			
 			shieldBar = new FlxBar(FlxG.width * 0.05, FlxG.height * 0.55, FlxBar.FILL_LEFT_TO_RIGHT, Std.int(FlxG.width * 0.2), Std.int(FlxG.height * 0.05), null, "", 0, shield, true);
 			add(shieldBar);
+		}else
+		{
+			hpBar = new FlxBar(0, 0, FlxBar.FILL_LEFT_TO_RIGHT, Std.int(FlxG.width * 0.2), Std.int(FlxG.height * 0.05), null, "", 0, hitpoints, true);
+			hpBar.setPosition(FlxG.width * 0.95 - hpBar.width, FlxG.height * 0.65);
+			hpBar.createFilledBar(0xFF720000,FlxColor.RED,true);
+			add(hpBar);
+			
+			shieldBar = new FlxBar(0,0, FlxBar.FILL_LEFT_TO_RIGHT, Std.int(FlxG.width * 0.2), Std.int(FlxG.height * 0.05), null, "", 0, shield, true);
+			shieldBar.setPosition(FlxG.width * 0.95 - hpBar.width, FlxG.height * 0.55);
+			add(shieldBar);
 		}
 	}
 	

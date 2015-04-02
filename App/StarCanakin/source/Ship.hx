@@ -61,6 +61,10 @@ class Ship extends FlxSpriteGroup
 		shieldBar.currentValue = currentShield;
 	}
 	
+	/**
+	 * vytvori vlastnosti lode
+	 * @param level vytvorene lode
+	 */
 	private function initStats(level:Int = 1) 
 	{
 		hitpoints = FlxRandom.intRanged(6 + level, 9 + level);
@@ -89,7 +93,6 @@ class Ship extends FlxSpriteGroup
 		shieldRecovery = 2;
 		
 		totalPoints -= shield + shieldRecovery;
-		//trace(totalPoints);
 		
 		while (totalPoints != 0)
 		{
@@ -176,25 +179,23 @@ class Ship extends FlxSpriteGroup
 		return currentShield;
 	}
 	
-	///
-	//Tato metoda vrací hodnotu štítu pro použití ve vyhodnocení střetu.
-	///
+	/**
+	 * ziskani aktualniho poctu hp
+	 * @return aktualni pocet hp
+	 */
 	public function GetHull():Int 
 	{
 		return currentHP;
 	}
 	
 	/**
-	 * Tato metoda by měla být volána na začátku nebo konci každého kola pro obnovéení štítu v závislosti na shieldRecovery.
+	 * metoda pro obnoveni stitu. Vola se na konci kola
 	 */
 	public function RechargeShield()
 	{
-		currentShield += shieldRecovery;
-		if (currentShield > shield) 
-		{
-			currentShield = shield;
-		}
+		
 	}
+	
 	/**
 	 * Tato metoda slouží k poškození lodi. Poškodí štít a pokud jej zničí a projde skrze, poškodí loď.
 	 * @param	dmg intagerová hodnota čistého dmg, která bude rovnou počítána se štítem a HP dané lodi

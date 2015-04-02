@@ -26,12 +26,9 @@ class Ship extends FlxSpriteGroup
 	var luck:Int;
 	
 	//dočasné bonusy pro dané kolo
-	var hitpointsTmp:Int;
 	var shieldTmp:Int;
 	var shieldRecoveryTmp:Int;
 	var weaponPowerTmp:Int;
-	var energyLevelTmp:Int;
-	var luckTmp:Int;
 	
 	//aktuální hodnoty
 	var currentHP:Int;
@@ -120,12 +117,9 @@ class Ship extends FlxSpriteGroup
 		currentHP = hitpoints;
 		currentShield = shield;
 		
-		hitpointsTmp = 0;
 		shieldTmp = 0;
 		shieldRecoveryTmp = 0;
 		weaponPowerTmp = 0;
-		energyLevelTmp = 0;
-		luckTmp = 0;
 		
 		isAlive = true;
 		

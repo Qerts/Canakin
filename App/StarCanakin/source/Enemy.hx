@@ -90,7 +90,7 @@ class Enemy extends Ship
 					case 2:
 						if (currentEnergy > 0) 
 						{
-							decision = Decision.BOOSTHP;
+							decision = Decision.BOOSTWP;
 						}else
 						{
 							decide();
@@ -159,7 +159,7 @@ class Enemy extends Ship
 					case 5:
 						if (currentEnergy > 0) 
 						{
-							decision = Decision.BOOSTHP;
+							decision = Decision.BOOSTWP;
 						}else
 						{
 							decide();

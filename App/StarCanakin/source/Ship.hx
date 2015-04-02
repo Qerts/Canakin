@@ -141,9 +141,11 @@ class Ship extends FlxSpriteGroup
 		return decision;
 	}
 		
-	///
-	//Tato metoda vypočte a vrátí hodnotu útoku. Viz pravidlo v OneNote
-	///
+	/**
+	 * Tato metoda vypočte a vrátí hodnotu útoku.
+	 * @param	critEnabled Pokud je zadáno true, může nastat critical hit. Pokud je zadáno false nebo nic, crit nenastane.
+	 * @return
+	 */
 	public function Attack(critEnabled:Bool = false):Int
 	{
 		var min:Int = weaponPower -1;
@@ -162,6 +164,7 @@ class Ship extends FlxSpriteGroup
 			return FlxRandom.intRanged(min, max);
 		}
 	}
+	
 	/**
 	 * Tato metoda vypočte a vrátí hodnotu uhnutí.
 	 * @return vrací float číslo 0-1, které určuje poměr uhnutí
@@ -245,20 +248,12 @@ class Ship extends FlxSpriteGroup
 			switch (statName) 
 			{
 				case StatName.EnergyLevel:
-					energyLevelTmp++;
-					energyLevel++;
-					currentEnergy--;
 				case StatName.HealthPoints:
-					hitpointsTmp++;
-					hitpoints++;
-					currentEnergy--;
 				case StatName.Luck:
-					luckTmp++;
-					luck++;
-					currentEnergy--;
 				case StatName.ShieldPoints:
-					shieldTmp++;
-					shield++;
+					//boostnutí štítů přidá hodnotu levelu
+					shieldTmp = shield + level;
+					shield += level;
 					currentEnergy--;
 				case StatName.ShieldRecovery:
 					shieldRecoveryTmp++;

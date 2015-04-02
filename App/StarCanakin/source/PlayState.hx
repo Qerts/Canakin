@@ -86,6 +86,7 @@ class PlayState extends FlxState
 			switch (enemy.GetDecision()) 
 			{
 				case Decision.ATTACK:
+					//není možné critnout při evadu druhé lodi
 					if (player.GetDecision() == Decision.EVADE) 
 					{
 						eDMG = enemy.Attack();
@@ -96,8 +97,8 @@ class PlayState extends FlxState
 					}
 				case Decision.EVADE:
 					eEVADATION = enemy.Evade();
-				case Decision.BOOSTHP:
-					enemy.Boost(StatName.HealthPoints, true);
+				case Decision.BOOSTWP:
+					enemy.Boost(StatName.WeaponPower, true);
 				case Decision.BOOSTSHIELD:
 					enemy.Boost(StatName.ShieldPoints, true);
 				case Decision.BOOSTSHIELDRECOVERY:
@@ -115,6 +116,7 @@ class PlayState extends FlxState
 			switch (player.GetDecision()) 
 			{
 				case Decision.ATTACK:
+					//není možné critnout při evadu druhé lodi
 					if (enemy.GetDecision() == Decision.EVADE) 
 					{
 						pDMG = player.Attack();
@@ -125,8 +127,8 @@ class PlayState extends FlxState
 					}
 				case Decision.EVADE:
 					pEVADATION = player.Evade();
-				case Decision.BOOSTHP:
-					player.Boost(StatName.HealthPoints, true);
+				case Decision.BOOSTWP:
+					player.Boost(StatName.WeaponPower, true);
 				case Decision.BOOSTSHIELD:
 					player.Boost(StatName.ShieldPoints, true);
 				case Decision.BOOSTSHIELDRECOVERY:
@@ -203,9 +205,9 @@ class PlayState extends FlxState
 		buttonBoostSR.visible = true;
 		buttonEvade.visible = false;		
 	}
-	private function BoostHPButton() 
+	private function BoostWPButton() 
 	{ 
-		player.SetDecision(Decision.BOOSTHP);
+		player.SetDecision(Decision.BOOSTWP);
 	}
 	private function BoostSButton() 
 	{
@@ -230,30 +232,30 @@ class PlayState extends FlxState
 	{
 		//Buttons
 		buttonAttack = new FlxButton(0,0, "Attack", AttackButton);
-		buttonAttack.setPosition(FlxG.width * 0.3-buttonAttack.width, FlxG.height * 0.8);
+		buttonAttack.setPosition(FlxG.width * 0.3-(buttonAttack.width/2), FlxG.height * 0.8);
 		add(buttonAttack);
 		
 		buttonEvade = new FlxButton(0,0, "Evade", EvadeButton);
-		buttonEvade.setPosition(FlxG.width*0.6 - buttonEvade.width, FlxG.height * 0.8);
+		buttonEvade.setPosition(FlxG.width*0.5 - (buttonEvade.width/2), FlxG.height * 0.8);
 		add(buttonEvade);
 		
 		buttonBoost = new FlxButton(0, 0, "Boost", BoostButton);
-		buttonBoost.setPosition(FlxG.width * 0.9 - buttonBoost.width, FlxG.height * 0.8);
+		buttonBoost.setPosition(FlxG.width * 0.7 - (buttonBoost.width/2), FlxG.height * 0.8);
 		add(buttonBoost);
 		
-		buttonBoostExit = new FlxButton(440, 350, "Back", BoostExitButton);
+		buttonBoostExit = new FlxButton(FlxG.width * 0.7 -(buttonAttack.width/2), FlxG.height * 0.9, "Back", BoostExitButton);
 		buttonBoostExit.visible = false;
 		add(buttonBoostExit);
 		
-		buttonBoostHP = new FlxButton(200, 300, "Hull", BoostHPButton);
+		buttonBoostHP = new FlxButton(FlxG.width * 0.3 -(buttonAttack.width/2), FlxG.height * 0.8, "Weapons", BoostWPButton);
 		buttonBoostHP.visible = false;
 		add(buttonBoostHP);
 		
-		buttonBoostS = new FlxButton(440, 300, "Shield", BoostSButton);
+		buttonBoostS = new FlxButton(FlxG.width * 0.5 -(buttonAttack.width/2), FlxG.height * 0.8, "Shield", BoostSButton);
 		buttonBoostS.visible = false;
 		add(buttonBoostS);
 		
-		buttonBoostSR = new FlxButton(200, 350, "Shield recovery", BoostSButton);
+		buttonBoostSR = new FlxButton(FlxG.width * 0.7-(buttonAttack.width/2), FlxG.height * 0.8, "Generator", BoostSRButton);
 		buttonBoostSR.visible = false;
 		add(buttonBoostSR);
 		
@@ -264,8 +266,16 @@ class PlayState extends FlxState
 	 */
 	private function checkBoost()
 	{
-		if (player.GetEnergyValue() == 0 ) 
+		if (player.GetEnergyValue() == 0 || buttonBoostExit.visible == true) 
 		{
+			buttonBoost.visible = false;
+		}else 
+		{
+			buttonBoost.visible = true;
+		}
+		if (player.GetEnergyValue() == 0) 
+		{
+			BoostExitButton();
 			buttonBoost.visible = false;
 		}
 	}

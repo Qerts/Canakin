@@ -16,9 +16,6 @@ class Player extends Ship
 	var cam:FlxCamera;
 	var testText:FlxTextField;
 	
-	var hpBar:FlxBar;
-	var shieldBar:FlxBar;
-	
 	public function new() 
 	{
 		super();
@@ -34,14 +31,9 @@ class Player extends Ship
 		testText = new FlxTextField(0, 0, 100, "Player \nWeapon: " + weaponPower + "\nHP: " + currentHP + "/" + hitpoints + "\nShield: " + currentShield + "/" + shield + "\nShield recovery: " + shieldRecovery + "\nEnergy: " + currentEnergy +"/" + energyLevel);
 		add(testText);
 		
-		hpBar = new FlxBar(FlxG.width * 0.05, FlxG.height * 0.65, FlxBar.FILL_LEFT_TO_RIGHT, Std.int(FlxG.width * 0.2), Std.int(FlxG.height * 0.05), null, "", 0, hitpoints, true);
-		hpBar.createFilledBar(0xFF720000,FlxColor.RED,true);
-		//hpBar. = FlxColor.RED;
-		hpBar.currentValue = 0;
-		add(hpBar);
+		initStats();
+		createBars(true);
 		
-		shieldBar = new FlxBar(FlxG.width * 0.05, FlxG.height * 0.55, FlxBar.FILL_LEFT_TO_RIGHT, Std.int(FlxG.width * 0.2), Std.int(FlxG.height * 0.05), null, "", 0, shield, true);
-		add(shieldBar);
 	}
 	
 	public static inline function getPlayer():Player
@@ -55,8 +47,7 @@ class Player extends Ship
 	
 	override function update():Void
 	{
-		hpBar.currentValue = currentHP;
-		shieldBar.currentValue = currentShield;
+		super.update();
 		//vyplnění testovacího boxu
 		testText.text = "Player \nWeapon: " + weaponPower + "\nHP: " + currentHP + "/" + hitpoints + "\nShield: " + currentShield + "/" + shield + "\nShield recovery: " + shieldRecovery + "\nEnergy: " + currentEnergy +"/" + energyLevel;
 

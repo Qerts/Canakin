@@ -44,6 +44,7 @@ class Enemy extends Ship
 	
 	override function update():Void
 	{
+		super.
 		//vyplnění testovacího boxu
 		testText.text = "Enemy \nWeapon: " + weaponPower + "\nHP: " + currentHP + "/" + hitpoints + "\nShield: " + currentShield + "/" + shield + "\nShield recovery: " + shieldRecovery + "\nEnergy: " + currentEnergy +"/" + energyLevel + "\nLevel: " + level;
 		

@@ -1,6 +1,9 @@
 package;
 import flixel.group.FlxSpriteGroup;
+import flixel.ui.FlxBar;
 using flixel.util.FlxRandom;
+import flixel.FlxG;
+import flixel.util.FlxColor;
 
 /**
  * ...
@@ -39,16 +42,24 @@ class Ship extends FlxSpriteGroup
 	
 	//Cooldowny
 	public var CooldownForEvade:Int;
+	
+	var hpBar:FlxBar;
+	var shieldBar:FlxBar;
 
 	public function new() 
 	{
-		super();	
-		
+		super();
 		CooldownForEvade = 0;
 		decision = Decision.NOTDECIDED;
-		
-						//pro testovací účely, smazat
 		initStats();
+	}
+	
+	override public function update():Void 
+	{
+		super.update();
+		trace("update");
+		hpBar.currentValue = currentHP;
+		shieldBar.currentValue = currentShield;
 	}
 	
 	private function initStats(level:Int = 1) 
@@ -84,7 +95,6 @@ class Ship extends FlxSpriteGroup
 		while (totalPoints != 0)
 		{
 			var rand = FlxRandom.intRanged(0, 100);
-			trace(rand);
 			if (rand < 50)
 			{
 				shield++;
@@ -284,6 +294,19 @@ class Ship extends FlxSpriteGroup
 		this.decision = dec;
 		trace(this.decision);
 		status = Status.WAITING;
+	}
+	
+	private function createBars(player:Bool):Void
+	{
+		if (player)
+		{
+			hpBar = new FlxBar(FlxG.width * 0.05, FlxG.height * 0.65, FlxBar.FILL_LEFT_TO_RIGHT, Std.int(FlxG.width * 0.2), Std.int(FlxG.height * 0.05), null, "", 0, hitpoints, true);
+			hpBar.createFilledBar(0xFF720000,FlxColor.RED,true);
+			add(hpBar);
+			
+			shieldBar = new FlxBar(FlxG.width * 0.05, FlxG.height * 0.55, FlxBar.FILL_LEFT_TO_RIGHT, Std.int(FlxG.width * 0.2), Std.int(FlxG.height * 0.05), null, "", 0, shield, true);
+			add(shieldBar);
+		}
 	}
 	
 	public function GetEnergyValue():Int { return currentEnergy; }

@@ -7,6 +7,7 @@ import flixel.text.FlxTextField;
 import flixel.ui.FlxButton;
 import flixel.util.FlxMath;
 import flixel.addons.display.FlxStarField;
+import flixel.util.FlxColor;
 
 /**
  * Třída pro jeden level
@@ -18,7 +19,7 @@ class PlayState extends FlxState
 	var player:Player;
 	var enemy:Enemy;
 	
-	
+	var buttonsBackground:FlxSprite;
 	
 	//Buttons
 	var buttonAttack:FlxButton;
@@ -37,6 +38,11 @@ class PlayState extends FlxState
 		stars = new FlxStarField2D();
 		stars.setStarSpeed(3,10);
 		add(stars);
+		
+		buttonsBackground = new FlxSprite();
+		buttonsBackground.makeGraphic(FlxG.width, Std.int(FlxG.height * 0.5), FlxColor.GRAY);
+		buttonsBackground.setPosition(0, FlxG.height * 0.5);
+		add(buttonsBackground);
 		
 		//FlxG.debugger.drawDebug = true;
 		//inicializace komponent lvlu

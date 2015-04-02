@@ -22,6 +22,8 @@ class Enemy extends Ship
 	
 	var testText:FlxTextField;
 	
+	var lastRoundDmg:Int = 0;
+	
 	public function new() 
 	{
 		super();
@@ -175,11 +177,22 @@ class Enemy extends Ship
 	{
 		
 	}
+	
 	/**
 	 * Rozhodování je založeno na aktuálních statech hráče.
 	 */
 	private function genuineDecide()
 	{
-		 
+		
+		
+		if (status == Status.STARTING) 
+		{
+			var averageReceivedDamage:Float = 0;
+			
+			if (decision == Decision.NOTDECIDED) 
+			{
+				
+			}
+		}
 	}
 }

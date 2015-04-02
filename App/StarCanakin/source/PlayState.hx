@@ -18,6 +18,8 @@ class PlayState extends FlxState
 	var player:Player;
 	var enemy:Enemy;
 	
+	
+	
 	//Buttons
 	var buttonAttack:FlxButton;
 	var buttonEvade:FlxButton;
@@ -35,7 +37,6 @@ class PlayState extends FlxState
 		stars = new FlxStarField2D();
 		stars.setStarSpeed(3,10);
 		add(stars);
-
 		
 		//FlxG.debugger.drawDebug = true;
 		//inicializace komponent lvlu
@@ -44,6 +45,8 @@ class PlayState extends FlxState
 		
 		add(enemy);
 		add(player);
+		
+		
 		
 		createButtons();	
 	}

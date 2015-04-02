@@ -121,6 +121,7 @@ class Enemy extends Ship
 			}
 		}
 	}
+	
 	/**
 	 * Rozhodování probíhá pseudonáhodně. Snaží se spíše útočit, než uhýbat.
 	 */

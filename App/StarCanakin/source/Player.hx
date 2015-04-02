@@ -4,6 +4,8 @@ import flixel.FlxSprite;
 import flixel.group.FlxSpriteGroup;
 import flixel.FlxG;
 import flixel.text.FlxTextField;
+import flixel.ui.FlxBar;
+import flixel.util.FlxColor;
 
 class Player extends Ship
 {
@@ -13,6 +15,9 @@ class Player extends Ship
 	
 	var cam:FlxCamera;
 	var testText:FlxTextField;
+	
+	var hpBar:FlxBar;
+	var shieldBar:FlxBar;
 	
 	public function new() 
 	{
@@ -28,6 +33,15 @@ class Player extends Ship
 		//testovací textfield
 		testText = new FlxTextField(0, 0, 100, "Player \nWeapon: " + weaponPower + "\nHP: " + currentHP + "/" + hitpoints + "\nShield: " + currentShield + "/" + shield + "\nShield recovery: " + shieldRecovery + "\nEnergy: " + currentEnergy +"/" + energyLevel);
 		add(testText);
+		
+		hpBar = new FlxBar(FlxG.width * 0.05, FlxG.height * 0.65, FlxBar.FILL_LEFT_TO_RIGHT, Std.int(FlxG.width * 0.2), Std.int(FlxG.height * 0.05), null, "", 0, hitpoints, true);
+		hpBar.createFilledBar(0xFF720000,FlxColor.RED,true);
+		//hpBar. = FlxColor.RED;
+		hpBar.currentValue = 0;
+		add(hpBar);
+		
+		shieldBar = new FlxBar(FlxG.width * 0.05, FlxG.height * 0.55, FlxBar.FILL_LEFT_TO_RIGHT, Std.int(FlxG.width * 0.2), Std.int(FlxG.height * 0.05), null, "", 0, shield, true);
+		add(shieldBar);
 	}
 	
 	public static inline function getPlayer():Player
@@ -41,6 +55,8 @@ class Player extends Ship
 	
 	override function update():Void
 	{
+		hpBar.currentValue = currentHP;
+		shieldBar.currentValue = currentShield;
 		//vyplnění testovacího boxu
 		testText.text = "Player \nWeapon: " + weaponPower + "\nHP: " + currentHP + "/" + hitpoints + "\nShield: " + currentShield + "/" + shield + "\nShield recovery: " + shieldRecovery + "\nEnergy: " + currentEnergy +"/" + energyLevel;
 

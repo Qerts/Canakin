@@ -85,7 +85,6 @@ class PlayState extends FlxState
 			{
 				case Decision.ATTACK:
 					eDMG = enemy.Attack();
-					trace("enemydmg:" + eDMG);
 				case Decision.EVADE:
 					eEVADATION = enemy.Evade();
 				case Decision.BOOSTHP:
@@ -121,7 +120,7 @@ class PlayState extends FlxState
 				default: 
 					
 			}
-			trace("dmg - evadation - výpočet", eDMG, pEVADATION, Std.int(eDMG * pEVADATION), pDMG, eEVADATION, Std.int(pDMG * eEVADATION));
+			
 			//útok enemy je snížen o evadation playera a poté je odečten od jeho statů
 			eDMG = Std.int(eDMG * pEVADATION);
 			player.DoDamage(eDMG);
@@ -215,11 +214,15 @@ class PlayState extends FlxState
 	{
 		//Buttons
 		buttonAttack = new FlxButton(0,0, "Attack", AttackButton);
-		buttonAttack.setPosition(FlxG.width * 0.2, FlxG.height * 0.6);
+		buttonAttack.setPosition(FlxG.width * 0.3-buttonAttack.width, FlxG.height * 0.8);
 		add(buttonAttack);
 		
+		buttonEvade = new FlxButton(0,0, "Evade", EvadeButton);
+		buttonEvade.setPosition(FlxG.width*0.6 - buttonEvade.width, FlxG.height * 0.8);
+		add(buttonEvade);
+		
 		buttonBoost = new FlxButton(0, 0, "Boost", BoostButton);
-		buttonBoost.setPosition(FlxG.width*0.8-buttonBoost.width, FlxG.height * 0.6);
+		buttonBoost.setPosition(FlxG.width * 0.9 - buttonBoost.width, FlxG.height * 0.8);
 		add(buttonBoost);
 		
 		buttonBoostExit = new FlxButton(440, 350, "Back", BoostExitButton);
@@ -238,9 +241,7 @@ class PlayState extends FlxState
 		buttonBoostSR.visible = false;
 		add(buttonBoostSR);
 		
-		buttonEvade = new FlxButton(0,0, "Evade", EvadeButton);
-		buttonEvade.setPosition(FlxG.width*0.8-buttonBoost.width, FlxG.height * 0.7);
-		add(buttonEvade);
+		
 	}
 	/**
 	 * Pokud hráč nemá žádnou volnou energii, zmizí mu boostovací tlačítko.

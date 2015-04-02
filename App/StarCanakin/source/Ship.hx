@@ -57,7 +57,6 @@ class Ship extends FlxSpriteGroup
 	override public function update():Void 
 	{
 		super.update();
-		trace("update");
 		hpBar.currentValue = currentHP;
 		shieldBar.currentValue = currentShield;
 	}
@@ -144,7 +143,6 @@ class Ship extends FlxSpriteGroup
 	///
 	public function Attack():Int
 	{
-		trace(weaponPower, level);
 		var min:Int = weaponPower -1;
 		var max:Int = weaponPower +1;
 		//jestli projde critical hit (nastaveno na 10%)
@@ -292,7 +290,6 @@ class Ship extends FlxSpriteGroup
 	public function SetDecision(dec:Decision)
 	{
 		this.decision = dec;
-		trace(this.decision);
 		status = Status.WAITING;
 	}
 	

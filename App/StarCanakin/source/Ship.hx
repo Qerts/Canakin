@@ -150,7 +150,7 @@ class Ship extends FlxSpriteGroup
 			if (FlxRandom.intRanged(0, 100) <= luck) 
 			{
 				max = weaponPower + level;
-				min = weaponPower + level;
+				//min = weaponPower + level;
 				return FlxRandom.intRanged(min, max);
 			}		
 			return FlxRandom.intRanged(min, max);

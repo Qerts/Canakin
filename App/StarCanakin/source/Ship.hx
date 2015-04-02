@@ -196,7 +196,7 @@ class Ship extends FlxSpriteGroup
 	 */
 	public function RechargeShield()
 	{
-		var tmpRechargeRate:Float = shieldRecovery / 10;
+		var tmpRechargeRate:Float = shieldRecovery / 15;
 		var tmp:Float = ((shield - currentShield) * tmpRechargeRate);
 		currentShield = Math.round(currentShield + ((shield - currentShield) * tmpRechargeRate));
 	}

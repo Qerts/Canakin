@@ -175,6 +175,24 @@ class Ship extends FlxSpriteGroup
 			return 0.5;
 		}		
 	}
+	/*
+	public function AimForWeapons():Array<Int>
+	{
+		var min:Int = weaponPower -3;
+		var max:Int = weaponPower -1;
+		var returnArray:Array<Int>;
+		if (FlxRandom.intRanged(luck,100) >= 50) 
+		{
+			 
+			return new Array<Int>(FlxRandom(min, max), 1); 
+		}else 
+		{
+			return new Array<Int>(FlxRandom(min, max), 0);
+		}
+		
+		
+	}*/
+	
 	///
 	//Tato metoda vrací hodnotu štítu pro použití ve vyhodnocení střetu.
 	///

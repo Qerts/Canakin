@@ -14,14 +14,26 @@ import flixel.util.FlxColor;
  */
 class PlayState extends FlxState
 {
-	
+	//UI declarations
 	var stars:FlxStarField2D;
-	var player:Player;
-	var enemy:Enemy;
-	
 	var buttonsBackground:FlxSprite;
 	
-	//Buttons
+	//Ship declarations
+	var player:Player;
+	var playerDMG:Int = 0;
+	var playerEVADATION:Float = 1;
+	var playerCRIT:Bool = false;
+	var playerHP:Int = 0;
+	var playerSHIELD = 0;
+	
+	var enemy:Enemy;
+	var enemyDMG:Int = 0;
+	var enemyEVADATION:Float = 1;
+	var enemyCRIT:Bool = false;
+	var enemyHP:Int = 0;
+	var enemySHIELD = 0;
+		
+	//Button declarations
 	var buttonAttack:FlxButton;
 	var buttonEvade:FlxButton;
 	var buttonBoost:FlxButton;
@@ -29,80 +41,57 @@ class PlayState extends FlxState
 	var buttonBoostS:FlxButton;
 	var buttonBoostSR:FlxButton;
 	var buttonBoostExit:FlxButton;
-
 		
 	override public function create():Void
 	{
 		super.create();
 		
-		stars = new FlxStarField2D();
-		stars.setStarSpeed(3,10);
-		add(stars);
+		//inicializace prostředí
+		SetStars();
+		SetButtonsBakcground();
+		SetButtons();
 		
-		buttonsBackground = new FlxSprite();
-		buttonsBackground.makeGraphic(FlxG.width, Std.int(FlxG.height * 0.5), FlxColor.GRAY);
-		buttonsBackground.setPosition(0, FlxG.height * 0.5);
-		add(buttonsBackground);
-		
-		//FlxG.debugger.drawDebug = true;
-		//inicializace komponent lvlu
-		player = Player.getPlayer();	//pozor, singleton, při každé smrti je nutné objekt zničit nebo vynulovat			
-		enemy = new Enemy();
-		
-		add(enemy);
+		//inicializace lodí
+		player = Player.getPlayer();	
 		add(player);
-		
-		
-		
-		createButtons();	
+		enemy = new Enemy();	
+		add(enemy);		
 	}
-
 	
 	override public function destroy():Void
 	{
 		super.destroy();
 	}
-
 	
 	override public function update():Void
 	{
 		super.update();
 		
+		//testovací scénář
 		newGameForTest();
 		
-		//pro kontrolu hráčovy energie
-		checkBoost();
-		//pro kontrolu cooldownů
-		checkCooldowns();
-		//pokud oba mají status waiting, tak v této třídě porběhne vyhodnocení akcí
+		//obsluha tlačítek
+		buttonService();
+		
 		if (enemy.status == Status.WAITING && player.status == Status.WAITING) 
 		{
-			//u obou lodí je zavolána funkce pro snížení případných cooldownů
 			player.DecreaseCooldowns();
-			enemy.DecreaseCooldowns();
+			enemy.DecreaseCooldowns();		
 			
-			trace(" ");
-			
-			//je načtena a provedena akce enemy
-			var eDMG:Int = 0;
-			var eEVADATION:Float = 1;
-			var eCRIT:Bool = false;
-			var eHP:Int = 0;
-			var eSHIELD = 0;
+			//PROVEDENÍ AKCE DLE ROZHODNUTÍ CPU
 			switch (enemy.GetDecision()) 
 			{
 				case Decision.ATTACK:
-					//není možné critnout při evadu druhé lodi
 					if (player.GetDecision() == Decision.EVADE) 
 					{
-						eDMG = enemy.Attack();
-						trace("Enemy attack without crit: " + eDMG);
+						enemyDMG = enemy.Attack();
+						trace("Enemy attack without crit: " + enemyDMG);
 					}else{
-						eDMG = enemy.Attack(true);
-						trace("Enemy attack with crit: " + eDMG);
+						enemyDMG = enemy.Attack(true);
+						trace("Enemy attack with crit: " + enemyDMG);
 					}
 				case Decision.EVADE:
-					eEVADATION = enemy.Evade();
+					enemyEVADATION = enemy.Evade();
 				case Decision.BOOSTWP:
 					enemy.Boost(StatName.WeaponPower, true);
 				case Decision.BOOSTSHIELD:
@@ -110,29 +99,22 @@ class PlayState extends FlxState
 				case Decision.BOOSTSHIELDRECOVERY:
 					enemy.Boost(StatName.ShieldRecovery, true);		
 				case Decision.NOTDECIDED:
-					
-				default:
 			}
-			//je načtena a provedena akce playera
-			var pDMG:Int = 0;
-			var pEVADATION:Float = 1;
-			var pCRIT:Bool = false;
-			var pHP:Int = 0;
-			var pSHIELD = 0;
+			
+			//PROVEDENÍ AKCE DLE ROZHODNUTÍ HRÁČE
 			switch (player.GetDecision()) 
 			{
 				case Decision.ATTACK:
-					//není možné critnout při evadu druhé lodi
 					if (enemy.GetDecision() == Decision.EVADE) 
 					{
-						pDMG = player.Attack();
-						trace("Player attack without crit: " + pDMG);
+						playerDMG = player.Attack();
+						trace("Player attack without crit: " + playerDMG);
 					}else{
-						pDMG = player.Attack(true);
-						trace("Player attack with crit: " + pDMG);
+						playerDMG = player.Attack(true);
+						trace("Player attack with crit: " + playerDMG);
 					}
 				case Decision.EVADE:
-					pEVADATION = player.Evade();
+					playerEVADATION = player.Evade();
 				case Decision.BOOSTWP:
 					player.Boost(StatName.WeaponPower, true);
 				case Decision.BOOSTSHIELD:
@@ -140,27 +122,19 @@ class PlayState extends FlxState
 				case Decision.BOOSTSHIELDRECOVERY:
 					player.Boost(StatName.ShieldRecovery, true);	
 				case Decision.NOTDECIDED:
-					
-				default: 
-					
 			}
 			
 			//útok enemy je snížen o evadation playera a poté je odečten od jeho statů
-			eDMG = Std.int(eDMG * pEVADATION);
-			player.DoDamage(eDMG);
+			player.DoDamage(Std.int(enemyDMG * playerEVADATION));
 			//útok playera je snížen o evadation enemy a poté je odečten od jeho statů
-			pDMG = Std.int(pDMG * eEVADATION);
-			enemy.DoDamage(pDMG);
-
-			
+			enemy.DoDamage(Std.int(playerDMG * enemyEVADATION));			
 			
 			//nastavit obě lodě na done			
-			enemy.status = Status.DONE;
-			player.status = Status.DONE;
+			enemy.status = player.status = Status.DONE;
 		}
 		if (enemy.status == Status.DONE && player.status == Status.DONE)
 		{
-			//nastavit obě lodě na nerozhodnutý stav
+			//nastavit obě lodě na nerozhodnutý stav, čímž se vynuluje jejich rozhodnutí, dokud nebude nahrazeno nějakou akcí
 			player.SetDecision(Decision.NOTDECIDED);
 			enemy.SetDecision(Decision.NOTDECIDED);
 			
@@ -169,8 +143,7 @@ class PlayState extends FlxState
 			enemy.RechargeShield();
 			
 			//pokud jsou dokončený všechny případné akce stavu done, přepne se znovu na starting
-			enemy.status = Status.STARTING;
-			player.status = Status.STARTING;
+			enemy.status = player.status = Status.STARTING;
 		}
 		
 	}
@@ -191,8 +164,72 @@ class PlayState extends FlxState
 		}
 	}
 	
-	
+//{ USER INTERFACE, INCLUDING BUTTONS
+	/**
+	 * Vytvoří v pozadí nekonečný vesmír plný hvězd zářících jako rozsypaný náhrdelník z perel.
+	 */
+	private function SetStars()
+	{
+		stars = new FlxStarField2D();
+		stars.setStarSpeed(3,10);
+		add(stars);
+	}
+	/**
+	 * Vytvoří panel pro tlačítka.
+	 */
+	private function SetButtonsBakcground()
+	{
+		buttonsBackground = new FlxSprite();
+		buttonsBackground.makeGraphic(FlxG.width, Std.int(FlxG.height * 0.5), FlxColor.GRAY);
+		buttonsBackground.setPosition(0, FlxG.height * 0.5);
+		add(buttonsBackground);
+	}
+	/**
+	 * Initializuje tlačítka.
+	 */
+	private function SetButtons():Void
+	{
+		//Buttons
+		buttonAttack = new FlxButton(0,0, "Attack", AttackButton);
+		buttonAttack.setPosition(FlxG.width * 0.3-(buttonAttack.width/2), FlxG.height * 0.8);
+		add(buttonAttack);
+		
+		buttonEvade = new FlxButton(0,0, "Evade", EvadeButton);
+		buttonEvade.setPosition(FlxG.width*0.5 - (buttonEvade.width/2), FlxG.height * 0.8);
+		add(buttonEvade);
+		
+		buttonBoost = new FlxButton(0, 0, "Boost", BoostButton);
+		buttonBoost.setPosition(FlxG.width * 0.7 - (buttonBoost.width/2), FlxG.height * 0.8);
+		add(buttonBoost);
+		
+		buttonBoostExit = new FlxButton(FlxG.width * 0.7 -(buttonAttack.width/2), FlxG.height * 0.9, "Back", BoostExitButton);
+		buttonBoostExit.visible = false;
+		add(buttonBoostExit);
+		
+		buttonBoostHP = new FlxButton(FlxG.width * 0.3 -(buttonAttack.width/2), FlxG.height * 0.8, "Weapons", BoostWPButton);
+		buttonBoostHP.visible = false;
+		add(buttonBoostHP);
+		
+		buttonBoostS = new FlxButton(FlxG.width * 0.5 -(buttonAttack.width/2), FlxG.height * 0.8, "Shield", BoostSButton);
+		buttonBoostS.visible = false;
+		add(buttonBoostS);
+		
+		buttonBoostSR = new FlxButton(FlxG.width * 0.7-(buttonAttack.width/2), FlxG.height * 0.8, "Generator", BoostSRButton);
+		buttonBoostSR.visible = false;
+		add(buttonBoostSR);
+		
+		
+	}
+//}
 //{ BUTTON METHODS
+
+	private function buttonService()
+	{
+		//pro kontrolu hráčovy energie
+		checkBoost();
+		//pro kontrolu cooldownů
+		checkCooldowns();
+	}
 	private function AttackButton()
 	{
 		player.SetDecision(Decision.ATTACK);
@@ -232,40 +269,6 @@ class PlayState extends FlxState
 		buttonBoostS.visible = false;
 		buttonBoostSR.visible = false;
 		buttonEvade.visible = true;
-	}
-	
-	private function createButtons():Void
-	{
-		//Buttons
-		buttonAttack = new FlxButton(0,0, "Attack", AttackButton);
-		buttonAttack.setPosition(FlxG.width * 0.3-(buttonAttack.width/2), FlxG.height * 0.8);
-		add(buttonAttack);
-		
-		buttonEvade = new FlxButton(0,0, "Evade", EvadeButton);
-		buttonEvade.setPosition(FlxG.width*0.5 - (buttonEvade.width/2), FlxG.height * 0.8);
-		add(buttonEvade);
-		
-		buttonBoost = new FlxButton(0, 0, "Boost", BoostButton);
-		buttonBoost.setPosition(FlxG.width * 0.7 - (buttonBoost.width/2), FlxG.height * 0.8);
-		add(buttonBoost);
-		
-		buttonBoostExit = new FlxButton(FlxG.width * 0.7 -(buttonAttack.width/2), FlxG.height * 0.9, "Back", BoostExitButton);
-		buttonBoostExit.visible = false;
-		add(buttonBoostExit);
-		
-		buttonBoostHP = new FlxButton(FlxG.width * 0.3 -(buttonAttack.width/2), FlxG.height * 0.8, "Weapons", BoostWPButton);
-		buttonBoostHP.visible = false;
-		add(buttonBoostHP);
-		
-		buttonBoostS = new FlxButton(FlxG.width * 0.5 -(buttonAttack.width/2), FlxG.height * 0.8, "Shield", BoostSButton);
-		buttonBoostS.visible = false;
-		add(buttonBoostS);
-		
-		buttonBoostSR = new FlxButton(FlxG.width * 0.7-(buttonAttack.width/2), FlxG.height * 0.8, "Generator", BoostSRButton);
-		buttonBoostSR.visible = false;
-		add(buttonBoostSR);
-		
-		
 	}
 	/**
 	 * Pokud hráč nemá žádnou volnou energii, zmizí mu boostovací tlačítko.

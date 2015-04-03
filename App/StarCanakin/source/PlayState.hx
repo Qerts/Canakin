@@ -76,7 +76,9 @@ class PlayState extends FlxState
 		if (enemy.status == Status.WAITING && player.status == Status.WAITING) 
 		{
 			player.DecreaseCooldowns();
-			enemy.DecreaseCooldowns();		
+			enemy.DecreaseCooldowns();	
+			
+			clensShipValues();
 			
 			//PROVEDENÍ AKCE DLE ROZHODNUTÍ CPU
 			switch (enemy.GetDecision()) 
@@ -124,13 +126,16 @@ class PlayState extends FlxState
 				case Decision.NOTDECIDED:
 			}
 			
-			//útok enemy je snížen o evadation playera a poté je odečten od jeho statů
-			player.DoDamage(Std.int(enemyDMG * playerEVADATION));
+			//útok enemy je snížen o evadation playera a poté je odečten od jeho statů			
+			enemyDMG = Std.int(enemyDMG * playerEVADATION);
+			player.DoDamage(enemyDMG);
 			//útok playera je snížen o evadation enemy a poté je odečten od jeho statů
-			enemy.DoDamage(Std.int(playerDMG * enemyEVADATION));			
+			playerDMG = Std.int(playerDMG * enemyEVADATION);
+			enemy.DoDamage(playerDMG);			
 			
 			//nastavit obě lodě na done			
-			enemy.status = player.status = Status.DONE;
+			enemy.status = Status.DONE;
+			player.status = Status.DONE;
 		}
 		if (enemy.status == Status.DONE && player.status == Status.DONE)
 		{
@@ -143,7 +148,8 @@ class PlayState extends FlxState
 			enemy.RechargeShield();
 			
 			//pokud jsou dokončený všechny případné akce stavu done, přepne se znovu na starting
-			enemy.status = player.status = Status.STARTING;
+			enemy.status = Status.STARTING;
+			player.status = Status.STARTING;
 		}
 		
 	}
@@ -162,6 +168,21 @@ class PlayState extends FlxState
 			add(enemy);
 			
 		}
+	}
+	
+	private function clensShipValues()
+	{
+		playerDMG = 0;
+		playerEVADATION = 1;
+		playerCRIT = false;
+		playerHP = 0;
+		playerSHIELD = 0;
+	
+		enemyDMG = 0;
+		enemyEVADATION = 1;
+		enemyCRIT = false;
+		enemyHP = 0;
+		enemySHIELD = 0;
 	}
 	
 //{ USER INTERFACE, INCLUDING BUTTONS

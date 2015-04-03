@@ -41,6 +41,8 @@ class PlayState extends FlxState
 	var buttonBoostS:FlxButton;
 	var buttonBoostSR:FlxButton;
 	var buttonBoostExit:FlxButton;
+	var buttonAimForWeapons:FlxButton;
+	var buttonAimForShields:FlxButton;
 		
 	override public function create():Void
 	{
@@ -101,6 +103,15 @@ class PlayState extends FlxState
 				case Decision.BOOSTSHIELDRECOVERY:
 					enemy.Boost(StatName.ShieldRecovery, true);		
 				case Decision.NOTDECIDED:
+				case Decision.AIMSHIELDS:
+				case Decision.AIMWEAPONS:
+					var aim = enemy.AimForWeapons();
+					enemyDMG = aim[0];
+					if (aim[0] == 1) 
+					{
+						player.CooldownForWeapons++;
+					}
+					
 			}
 			
 			//PROVEDENÍ AKCE DLE ROZHODNUTÍ HRÁČE
@@ -124,6 +135,8 @@ class PlayState extends FlxState
 				case Decision.BOOSTSHIELDRECOVERY:
 					player.Boost(StatName.ShieldRecovery, true);	
 				case Decision.NOTDECIDED:
+					case Decision.AIMSHIELDS:
+				case Decision.AIMWEAPONS:
 			}
 			
 			//útok enemy je snížen o evadation playera a poté je odečten od jeho statů			
@@ -223,21 +236,33 @@ class PlayState extends FlxState
 		buttonBoost.setPosition(FlxG.width * 0.7 - (buttonBoost.width/2), FlxG.height * 0.8);
 		add(buttonBoost);
 		
-		buttonBoostExit = new FlxButton(FlxG.width * 0.7 -(buttonAttack.width/2), FlxG.height * 0.9, "Back", BoostExitButton);
+		buttonBoostExit = new FlxButton(0,0, "Back", BoostExitButton);
+		buttonBoostExit.setPosition(FlxG.width * 0.7 -(buttonBoostExit.width / 2), FlxG.height * 0.9);
 		buttonBoostExit.visible = false;
 		add(buttonBoostExit);
 		
-		buttonBoostHP = new FlxButton(FlxG.width * 0.3 -(buttonAttack.width/2), FlxG.height * 0.8, "Weapons", BoostWPButton);
+		buttonBoostHP = new FlxButton(0,0, "Weapons", BoostWPButton);
+		buttonBoostHP.setPosition(FlxG.width * 0.3 -(buttonBoostHP.width / 2), FlxG.height * 0.8);
 		buttonBoostHP.visible = false;
 		add(buttonBoostHP);
 		
-		buttonBoostS = new FlxButton(FlxG.width * 0.5 -(buttonAttack.width/2), FlxG.height * 0.8, "Shield", BoostSButton);
+		buttonBoostS = new FlxButton(0,0, "Shield", BoostSButton);
+		buttonBoostS.setPosition(FlxG.width * 0.5 -(buttonBoostS.width / 2), FlxG.height * 0.8);
 		buttonBoostS.visible = false;
 		add(buttonBoostS);
 		
-		buttonBoostSR = new FlxButton(FlxG.width * 0.7-(buttonAttack.width/2), FlxG.height * 0.8, "Generator", BoostSRButton);
+		buttonBoostSR = new FlxButton(0,0, "Generator", BoostSRButton);
+		buttonBoostSR.setPosition(FlxG.width * 0.7 - (buttonBoostSR.width / 2), FlxG.height * 0.8);
 		buttonBoostSR.visible = false;
 		add(buttonBoostSR);
+		
+		buttonAimForShields = new FlxButton(0,0, "Aim shields", AimShields);
+		buttonAimForShields.setPosition(FlxG.width * 0.3 - (buttonAimForShields.width / 2), FlxG.height * 0.9);
+		add(buttonAimForShields);
+		
+		buttonAimForWeapons = new FlxButton(0,0, "Aim weapons", AimWeapons);
+		buttonAimForWeapons.setPosition(FlxG.width * 0.5 - (buttonAimForWeapons.width / 2), FlxG.height * 0.9);
+		add(buttonAimForWeapons);
 		
 		
 	}
@@ -291,6 +316,17 @@ class PlayState extends FlxState
 		buttonBoostSR.visible = false;
 		buttonEvade.visible = true;
 	}
+	
+	private function AimWeapons()
+	{
+		player.SetDecision(Decision.AIMWEAPONS);
+	}
+	
+	private function AimShields()
+	{
+		player.SetDecision(Decision.AIMSHIELDS);
+	}
+	
 	/**
 	 * Pokud hráč nemá žádnou volnou energii, zmizí mu boostovací tlačítko.
 	 */
@@ -318,6 +354,29 @@ class PlayState extends FlxState
 		else 
 		{
 			buttonEvade.visible = true;
+		}
+		if (player.CooldownForWeapons > 0) 
+		{
+			buttonAttack.visible = false;
+		}else 
+		{
+			buttonAttack.visible = true;
+		}
+		
+		if (player.CooldownForAimForShields > 0) 
+		{
+			buttonAimForShields.visible = false;
+		}else 
+		{
+			buttonAimForShields.visible = true;
+		}
+		
+		if (player.CooldownForAimForWeapons > 0) 
+		{
+			buttonAimForWeapons.visible = false;
+		}else 
+		{
+			buttonAimForWeapons.visible = true;
 		}
 	}
 //}

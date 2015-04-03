@@ -39,6 +39,10 @@ class Ship extends FlxSpriteGroup
 	
 	//Cooldowny
 	public var CooldownForEvade:Int;
+	public var CooldownForAimForWeapons:Int;
+	public var CooldownForAimForShields:Int;
+	public var CooldownForWeapons:Int;
+	public var CooldownFowShields:Int;
 	
 	var hpBar:FlxBar;
 	var shieldBar:FlxBar;
@@ -47,7 +51,13 @@ class Ship extends FlxSpriteGroup
 	{
 		super();
 		CooldownForEvade = 0;
+		CooldownForAimForShields = 0;
+		CooldownForAimForWeapons = 0;
+		CooldownForWeapons = 0;
+		CooldownFowShields = 0;
+		
 		decision = Decision.NOTDECIDED;
+		
 		initStats();
 	}
 	
@@ -175,23 +185,29 @@ class Ship extends FlxSpriteGroup
 			return 0.5;
 		}		
 	}
-	/*
+	/**
+	 * Tato metoda je pro útok zamířený na zbraně. Vrací pole, kde na první pozici je dmg a na druhé pozici je hodnota - 0 znamená, že útok nevyšel, 1 znamená, že útok vyšel.
+	 * @return vrací pole, kde na první pozici je dmg a na druhé pozici je hodnota - 0 znamená, že útok nevyšel, 1 znamená, že útok vyšel
+	 */
 	public function AimForWeapons():Array<Int>
 	{
+		CooldownForAimForWeapons += 3;
+		
 		var min:Int = weaponPower -3;
 		var max:Int = weaponPower -1;
-		var returnArray:Array<Int>;
+		var returnArray = new Array<Int>();
+		returnArray[0] = FlxRandom.intRanged(min, max);
+		
 		if (FlxRandom.intRanged(luck,100) >= 50) 
 		{
-			 
-			return new Array<Int>(FlxRandom(min, max), 1); 
+			returnArray[1] = 1;
+			return returnArray; 
 		}else 
 		{
-			return new Array<Int>(FlxRandom(min, max), 0);
-		}
-		
-		
-	}*/
+			returnArray[1] = 0;
+			return returnArray; 
+		}	
+	}
 	
 	///
 	//Tato metoda vrací hodnotu štítu pro použití ve vyhodnocení střetu.

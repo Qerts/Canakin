@@ -224,19 +224,22 @@ class PlayState extends FlxState
 	private function SetButtons():Void
 	{
 		//Buttons
-		buttonAttack = new FlxButton(0,0, "Attack", AttackButton);
-		buttonAttack.setPosition(FlxG.width * 0.3-(buttonAttack.width/2), FlxG.height * 0.8);
+		buttonAttack = new FlxButton(0, 0, "", AttackButton);
+		buttonAttack.loadGraphic("assets/images/buttons/attack_button.png");
+		buttonAttack.setPosition(FlxG.width * 0.2 - (buttonAttack.width / 2), FlxG.height * 0.75);
 		add(buttonAttack);
 		
-		buttonEvade = new FlxButton(0,0, "Evade", EvadeButton);
-		buttonEvade.setPosition(FlxG.width*0.5 - (buttonEvade.width/2), FlxG.height * 0.8);
+		buttonEvade = new FlxButton(0, 0, "", EvadeButton);
+		buttonEvade.loadGraphic("assets/images/buttons/evade_button.png");
+		buttonEvade.setPosition(FlxG.width*0.5 - (buttonEvade.width/2), FlxG.height * 0.75);
 		add(buttonEvade);
 		
-		buttonBoost = new FlxButton(0, 0, "Boost", BoostButton);
-		buttonBoost.setPosition(FlxG.width * 0.7 - (buttonBoost.width/2), FlxG.height * 0.8);
+		buttonBoost = new FlxButton(0, 0, "", BoostButton);
+		buttonBoost.loadGraphic("assets/images/buttons/boost_button.png",false,128,128,false);
+		buttonBoost.setPosition(FlxG.width * 0.7 - (buttonBoost.width/2), FlxG.height * 0.75);
 		add(buttonBoost);
 		
-		buttonBoostExit = new FlxButton(0,0, "Back", BoostExitButton);
+		buttonBoostExit = new FlxButton(0, 0, "Back", BoostExitButton);
 		buttonBoostExit.setPosition(FlxG.width * 0.7 -(buttonBoostExit.width / 2), FlxG.height * 0.9);
 		buttonBoostExit.visible = false;
 		add(buttonBoostExit);

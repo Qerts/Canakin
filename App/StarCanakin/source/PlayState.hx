@@ -105,12 +105,7 @@ class PlayState extends FlxState
 				case Decision.NOTDECIDED:
 				case Decision.AIMSHIELDS:
 				case Decision.AIMWEAPONS:
-					var aim = enemy.AimForWeapons();
-					enemyDMG = aim[0];
-					if (aim[0] == 1) 
-					{
-						player.CooldownForWeapons++;
-					}
+					player.AimedForWeapons(enemy.AimForWeapons());
 					
 			}
 			
@@ -135,8 +130,9 @@ class PlayState extends FlxState
 				case Decision.BOOSTSHIELDRECOVERY:
 					player.Boost(StatName.ShieldRecovery, true);	
 				case Decision.NOTDECIDED:
-					case Decision.AIMSHIELDS:
+				case Decision.AIMSHIELDS:
 				case Decision.AIMWEAPONS:
+					enemy.AimedForWeapons(player.AimForWeapons());
 			}
 			
 			//útok enemy je snížen o evadation playera a poté je odečten od jeho statů			
@@ -226,7 +222,7 @@ class PlayState extends FlxState
 		//Buttons
 		buttonAttack = new FlxButton(0, 0, "", AttackButton);
 		buttonAttack.loadGraphic("assets/images/buttons/attack_button.png");
-		buttonAttack.setPosition(FlxG.width * 0.2 - (buttonAttack.width / 2), FlxG.height * 0.75);
+		buttonAttack.setPosition(FlxG.width * 0.3 - (buttonAttack.width / 2), FlxG.height * 0.75);
 		add(buttonAttack);
 		
 		buttonEvade = new FlxButton(0, 0, "", EvadeButton);

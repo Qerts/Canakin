@@ -135,7 +135,7 @@ class Enemy extends Ship
 		{
 			if (decision == Decision.NOTDECIDED) 
 			{
-				var top:Int = FlxRandom.intRanged(1, 5);
+				var top:Int = FlxRandom.intRanged(5,6);
 				switch (FlxRandom.intRanged(1, top)) 
 				{
 					case 1:
@@ -163,6 +163,15 @@ class Enemy extends Ship
 						{
 							decision = Decision.BOOSTWP;
 						}else
+						{
+							decide();
+						}
+					case 6:
+						if (CooldownForAimForWeapons == 0) 
+						{
+							decision = Decision.AIMWEAPONS;
+							trace("enemy decided aim");
+						}else 
 						{
 							decide();
 						}

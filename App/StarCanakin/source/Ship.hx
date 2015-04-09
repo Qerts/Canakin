@@ -151,7 +151,7 @@ class Ship extends FlxSpriteGroup
 	 * @return
 	 */
 	public function Attack(critEnabled:Bool = false):Int
-	{
+	{		
 		var min:Int = weaponPower -1;
 		var max:Int = weaponPower +1;
 		if (critEnabled) 
@@ -190,7 +190,7 @@ class Ship extends FlxSpriteGroup
 	 * @return vrací pole, kde na první pozici je dmg a na druhé pozici je hodnota - 0 znamená, že útok nevyšel, 1 znamená, že útok vyšel
 	 */
 	public function AimForWeapons():Array<Int>
-	{
+	{		
 		CooldownForAimForWeapons += 3;
 		
 		var min:Int = weaponPower -3;
@@ -207,6 +207,19 @@ class Ship extends FlxSpriteGroup
 			returnArray[1] = 0;
 			return returnArray; 
 		}	
+	}
+	public function AimedForWeapons(twinValue:Array<Int>)
+	{
+		var evadation:Float = 1;
+		if (decision == Decision.EVADE) 
+		{
+			evadation = Evade();
+		}
+		DoDamage(Math.round((twinValue[0] * evadation)));
+		if (twinValue[1] == 1) 
+		{
+			CooldownForWeapons++;
+		}
 	}
 	
 	///
@@ -319,6 +332,22 @@ class Ship extends FlxSpriteGroup
 		if (CooldownForEvade > 0) 
 		{
 			CooldownForEvade--;
+		}
+		if (CooldownForAimForShields > 0) 
+		{
+			CooldownForAimForShields--;
+		}
+		if (CooldownForAimForWeapons >0) 
+		{
+			CooldownForAimForWeapons--;
+		}
+		if (CooldownForWeapons > 0) 
+		{
+			CooldownForWeapons--;
+		}
+		if (CooldownFowShields > 0) 
+		{
+			CooldownFowShields--;
 		}
 	}
 	

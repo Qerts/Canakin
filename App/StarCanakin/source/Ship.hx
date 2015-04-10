@@ -208,8 +208,13 @@ class Ship extends FlxSpriteGroup
 			return returnArray; 
 		}	
 	}
+	/**
+	 * Tato metoda přejímá hodnoty metody AimForWeapons oponenta.
+	 * @param	twinValue
+	 */
 	public function AimedForWeapons(twinValue:Array<Int>)
 	{
+		trace(twinValue[0], twinValue[1]);
 		var evadation:Float = 1;
 		if (decision == Decision.EVADE) 
 		{
@@ -219,6 +224,48 @@ class Ship extends FlxSpriteGroup
 		if (twinValue[1] == 1) 
 		{
 			CooldownForWeapons++;
+		}
+	}
+	
+	/**
+	 * Tato metoda je pro útok zamířený na štíty. Vrací pole, kde na první pozici je dmg a na druhé pozici je hodnota - 0 znamená, že útok nevyšel, 1 znamená, že útok vyšel.
+	 * @return vrací pole, kde na první pozici je dmg a na druhé pozici je hodnota - 0 znamená, že útok nevyšel, 1 znamená, že útok vyšel
+	 */
+	public function AimForShields():Array<Int>
+	{		
+		CooldownForAimForShields += 3;
+		
+		var min:Int = weaponPower -3;
+		var max:Int = weaponPower -1;
+		var returnArray = new Array<Int>();
+		returnArray[0] = FlxRandom.intRanged(min, max);
+		
+		if (FlxRandom.intRanged(luck,100) >= 50) 
+		{
+			returnArray[1] = 1;
+			return returnArray; 
+		}else 
+		{
+			returnArray[1] = 0;
+			return returnArray; 
+		}	
+	}
+	/**
+	 * Tato metoda přejímá hodnoty metody AimForWeapons oponenta.
+	 * @param	twinValue
+	 */
+	public function AimedForShields(twinValue:Array<Int>)
+	{
+		trace(twinValue[0], twinValue[1]);
+		var evadation:Float = 1;
+		if (decision == Decision.EVADE) 
+		{
+			evadation = Evade();
+		}
+		DoDamage(Math.round((twinValue[0] * evadation)));
+		if (twinValue[1] == 1) 
+		{
+			CooldownFowShields+=2;
 		}
 	}
 	
@@ -244,9 +291,12 @@ class Ship extends FlxSpriteGroup
 	 */
 	public function RechargeShield()
 	{
-		var tmpRechargeRate:Float = shieldRecovery / 15;
-		var tmp:Float = ((shield - currentShield) * tmpRechargeRate);
-		currentShield = Math.round(currentShield + ((shield - currentShield) * tmpRechargeRate));
+		if (CooldownFowShields == 0) 
+		{
+			var tmpRechargeRate:Float = shieldRecovery / 15;
+			var tmp:Float = ((shield - currentShield) * tmpRechargeRate);
+			currentShield = Math.round(currentShield + ((shield - currentShield) * tmpRechargeRate));
+		}
 	}
 	
 	/**

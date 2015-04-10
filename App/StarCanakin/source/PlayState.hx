@@ -94,6 +94,9 @@ class PlayState extends FlxState
 						enemyDMG = enemy.Attack(true);
 						trace("Enemy attack with crit: " + enemyDMG);
 					}
+					//útok enemy je snížen o evadation playera a poté je odečten od jeho statů			
+					enemyDMG = Std.int(enemyDMG * playerEVADATION);
+					player.DoDamage(enemyDMG);
 				case Decision.EVADE:
 					enemyEVADATION = enemy.Evade();
 				case Decision.BOOSTWP:
@@ -104,6 +107,7 @@ class PlayState extends FlxState
 					enemy.Boost(StatName.ShieldRecovery, true);		
 				case Decision.NOTDECIDED:
 				case Decision.AIMSHIELDS:
+					player.AimedForShields(enemy.AimForShields());
 				case Decision.AIMWEAPONS:
 					player.AimedForWeapons(enemy.AimForWeapons());
 					
@@ -121,6 +125,9 @@ class PlayState extends FlxState
 						playerDMG = player.Attack(true);
 						trace("Player attack with crit: " + playerDMG);
 					}
+					//útok playera je snížen o evadation enemy a poté je odečten od jeho statů
+					playerDMG = Std.int(playerDMG * enemyEVADATION);
+					enemy.DoDamage(playerDMG);	
 				case Decision.EVADE:
 					playerEVADATION = player.Evade();
 				case Decision.BOOSTWP:
@@ -131,16 +138,13 @@ class PlayState extends FlxState
 					player.Boost(StatName.ShieldRecovery, true);	
 				case Decision.NOTDECIDED:
 				case Decision.AIMSHIELDS:
+					enemy.AimedForShields(player.AimForShields());
 				case Decision.AIMWEAPONS:
 					enemy.AimedForWeapons(player.AimForWeapons());
 			}
 			
-			//útok enemy je snížen o evadation playera a poté je odečten od jeho statů			
-			enemyDMG = Std.int(enemyDMG * playerEVADATION);
-			player.DoDamage(enemyDMG);
-			//útok playera je snížen o evadation enemy a poté je odečten od jeho statů
-			playerDMG = Std.int(playerDMG * enemyEVADATION);
-			enemy.DoDamage(playerDMG);			
+			
+					
 			
 			//nastavit obě lodě na done			
 			enemy.status = Status.DONE;
@@ -376,6 +380,14 @@ class PlayState extends FlxState
 		}else 
 		{
 			buttonAimForWeapons.visible = true;
+		}
+		
+		if (player.CooldownForAimForShields > 0) 
+		{
+			buttonAimForWeapons.visible = false;
+		}else 
+		{
+			buttonAimForShields.visible = true;
 		}
 	}
 //}

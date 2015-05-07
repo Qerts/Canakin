@@ -24,7 +24,7 @@ class Player extends Ship
 		ship.add(ShipGenerator.getShip());
 		add(ship);
 		
-		ship.setPosition(FlxG.width * 0.05, FlxG.height * 0.15);
+		setPosition(FlxG.width * 0.05, FlxG.height * 0.15);
 		status = Status.STARTING;
 		
 		//testovací textfield

@@ -32,7 +32,7 @@ class Enemy extends Ship
 		ship.add(ShipGenerator.getShip());
 		add(ship);
 		
-		ship.setPosition(FlxG.width * 0.95-ship.width,FlxG.height*0.15);
+		setPosition(FlxG.width * 0.95-ship.width,FlxG.height*0.15);
 		ship.angle = 180;
 		
 		status = Status.STARTING;

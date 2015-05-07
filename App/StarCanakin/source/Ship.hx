@@ -303,7 +303,7 @@ class Ship extends FlxSpriteGroup
 	 * Tato metoda slouží k poškození lodi. Poškodí štít a pokud jej zničí a projde skrze, poškodí loď.
 	 * @param	dmg intagerová hodnota čistého dmg, která bude rovnou počítána se štítem a HP dané lodi
 	 */
-	public function DoDamage(dmg:Int) 
+	public function DoDamage(dmg:Int):Int
 	{ 
 		var sumHeatlth:Int = currentHP + currentShield - dmg;
 		trace("DoDamage method: Damage recieved " + dmg + " current HP " + currentHP + " current shield " + currentShield);
@@ -321,6 +321,8 @@ class Ship extends FlxSpriteGroup
 			currentShield -= dmg;
 		}
 		trace("DoDamage method: Damage recieved " + dmg + " current HP after action " + currentHP + " current shield after action " + currentShield);
+		return dmg;
+		
 		
 	}	
 	/**

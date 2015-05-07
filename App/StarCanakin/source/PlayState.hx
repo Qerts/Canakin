@@ -96,7 +96,10 @@ class PlayState extends FlxState
 					}
 					//útok enemy je snížen o evadation playera a poté je odečten od jeho statů			
 					enemyDMG = Std.int(enemyDMG * playerEVADATION);
-					player.DoDamage(enemyDMG);
+					//player.DoDamage(enemyDMG);
+					var dmglbl = new DamageIndicator(Std.int(player.x + player.width/2), Std.int(player.y + player.height/2), player.DoDamage(enemyDMG), true);
+					trace("player XY"+  player.x, player.y);
+					add(dmglbl);
 				case Decision.EVADE:
 					enemyEVADATION = enemy.Evade();
 				case Decision.BOOSTWP:
@@ -127,7 +130,10 @@ class PlayState extends FlxState
 					}
 					//útok playera je snížen o evadation enemy a poté je odečten od jeho statů
 					playerDMG = Std.int(playerDMG * enemyEVADATION);
-					enemy.DoDamage(playerDMG);	
+					//enemy.DoDamage(playerDMG);	
+					var dmglbl = new DamageIndicator(Std.int(enemy.x + (enemy.width/2)), Std.int(enemy.y + (enemy.height/2)), enemy.DoDamage(playerDMG), true);
+					trace("enemy XY" + enemy.x, enemy.y);
+					add(dmglbl);
 				case Decision.EVADE:
 					playerEVADATION = player.Evade();
 				case Decision.BOOSTWP:

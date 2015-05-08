@@ -133,8 +133,7 @@ class PlayState extends FlxState
 					//útok playera je snížen o evadation enemy a poté je odečten od jeho statů
 					playerDMG = Std.int(playerDMG * enemyEVADATION);
 					enemy.DoDamage(playerDMG);	
-					var projectile:Projectile = new Projectile(Std.int(enemy.x), Std.int(enemy.y), Std.int(player.x), Std.int(player.y), ProjectileType.Laser, 0, 10);
-					add(projectile);
+					add(new Projectile(Std.int(player.x), Std.int(player.y), Std.int(enemy.x), Std.int(enemy.y), ProjectileType.Laser, 0, 10));
 				case Decision.EVADE:
 					playerEVADATION = player.Evade();
 				case Decision.BOOSTWP:

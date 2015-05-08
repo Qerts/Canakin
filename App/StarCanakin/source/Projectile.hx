@@ -83,10 +83,10 @@ class Projectile extends FlxSpriteGroup
 		
 		if (start.y > target.y) 
 		{
-			projectile.y += speed.y;
+			projectile.y -= speed.y;
 		}else 
 		{
-			projectile.y -= speed.y;
+			projectile.y += speed.y;
 		}
 		
 		if (this.x == target.x) 

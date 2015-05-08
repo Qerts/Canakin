@@ -81,8 +81,12 @@ class Ship extends FlxSpriteGroup
 		
 		//update shield opacity
 		var opacity:Float = (currentShield / (shield / 100)) / 100;
-		shieldSprite.alpha = opacity;
-		
+		if (opacity <= 0.20) 
+		{
+			shieldSprite.alpha = 0;
+		}else{
+			shieldSprite.alpha = opacity;
+		}
 		
 		//vibrations
 		if (vibrate) 

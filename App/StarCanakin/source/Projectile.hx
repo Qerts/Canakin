@@ -3,6 +3,7 @@ import flixel.FlxSprite;
 import flixel.group.FlxSpriteGroup;
 import haxe.Timer;
 import openfl.geom.Point;
+import flixel.util.FlxRandom;
 
 /**
  * ...
@@ -26,7 +27,7 @@ class Projectile extends FlxSpriteGroup
 		projectile.makeGraphic(30, 10);
 		projectile.setPosition(startX, startY);
 		start = new Point(startX, startY);
-		target = new Point(targetX, targetY);
+		target = new Point(targetX, FlxRandom.intRanged( Std.int(targetY * 0.7), Std.int(targetY * 1.3)));
 		this.rangeCounter = speed;
 		
 		ClaculateSpeed(speed);

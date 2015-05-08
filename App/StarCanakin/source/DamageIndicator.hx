@@ -20,13 +20,21 @@ class DamageIndicator extends FlxSpriteGroup
 	var flyToTheLeft:Bool;
 	var fadeTime:Int;
 
-	public function new(x:Int, y:Int, dmg:Int, left:Bool = true, color:Int = 0xffffff, miliseconds:Int = 4000) 
+	/**
+	 * 
+	 * @param	x Horizontální pozice čísla
+	 * @param	y Vertikální pozice čísla
+	 * @param	dmg Text
+	 * @param	left Zda číslo bude plout doleva. Pokud je false, popluje doprava.
+	 * @param	color Barva písma, zadat ve formátu 0x000000
+	 * @param	miliseconds Počet milisekund, po které bude číslo viditelné
+	 */
+	public function new(x:Int, y:Int, dmg:Int, left:Bool = true, color:Int = 0xffffff, miliseconds:Int = 4000, fonsize:Int = 15) 
 	{
 		super();
 		
-		dmgLabel = new FlxText(x, y, 200, "", 10);
+		dmgLabel = new FlxText(x, y, 200, " " + dmg + " ", fonsize);
 		dmgLabel.color = color;
-		dmgLabel.text = " " + dmg + " ";
 		flyToTheLeft = left;
 		fadeTime = miliseconds;
 		add(dmgLabel);

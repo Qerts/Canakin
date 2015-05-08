@@ -8,6 +8,7 @@ import flixel.ui.FlxButton;
 import flixel.util.FlxMath;
 import flixel.addons.display.FlxStarField;
 import flixel.util.FlxColor;
+import openfl.display.Graphics;
 
 /**
  * Třída pro jeden level
@@ -17,6 +18,7 @@ class PlayState extends FlxState
 	//UI declarations
 	var stars:FlxStarField2D;
 	var buttonsBackground:FlxSprite;
+	var statsCircle:FlxSprite;
 	
 	//Ship declarations
 	var player:Player;
@@ -96,10 +98,10 @@ class PlayState extends FlxState
 					}
 					//útok enemy je snížen o evadation playera a poté je odečten od jeho statů			
 					enemyDMG = Std.int(enemyDMG * playerEVADATION);
-					//player.DoDamage(enemyDMG);
-					var dmglbl = new DamageIndicator(Std.int(player.x + player.width/2), Std.int(player.y + player.height/2), player.DoDamage(enemyDMG), true);
-					trace("player XY"+  player.x, player.y);
-					add(dmglbl);
+					player.DoDamage(enemyDMG);		
+					//set projectile
+					var projectile:Projectile = new Projectile(Std.int(enemy.x), Std.int(enemy.y), Std.int(player.x), Std.int(player.y), ProjectileType.Laser, 0, 10);
+					add(projectile);
 				case Decision.EVADE:
 					enemyEVADATION = enemy.Evade();
 				case Decision.BOOSTWP:
@@ -130,10 +132,9 @@ class PlayState extends FlxState
 					}
 					//útok playera je snížen o evadation enemy a poté je odečten od jeho statů
 					playerDMG = Std.int(playerDMG * enemyEVADATION);
-					//enemy.DoDamage(playerDMG);	
-					var dmglbl = new DamageIndicator(Std.int(enemy.x + (enemy.width/2)), Std.int(enemy.y + (enemy.height/2)), enemy.DoDamage(playerDMG), true);
-					trace("enemy XY" + enemy.x, enemy.y);
-					add(dmglbl);
+					enemy.DoDamage(playerDMG);	
+					var projectile:Projectile = new Projectile(Std.int(enemy.x), Std.int(enemy.y), Std.int(player.x), Std.int(player.y), ProjectileType.Laser, 0, 10);
+					add(projectile);
 				case Decision.EVADE:
 					playerEVADATION = player.Evade();
 				case Decision.BOOSTWP:
@@ -220,8 +221,13 @@ class PlayState extends FlxState
 	private function SetButtonsBakcground()
 	{
 		buttonsBackground = new FlxSprite();
-		buttonsBackground.makeGraphic(FlxG.width, Std.int(FlxG.height * 0.5), FlxColor.GRAY);
-		buttonsBackground.setPosition(0, FlxG.height * 0.5);
+		buttonsBackground.makeGraphic(FlxG.width, Std.int(FlxG.height * 0.3), FlxColor.GRAY);
+		buttonsBackground.setPosition(0, FlxG.height * 0.7);
+		/*
+		statsCircle = new FlxSprite();
+		statsCircle.  makeGraphic(Std.int(FlxG.width * 0.4), Std.int(FlxG.width * 0.4), FlxColor.GRAY);
+		statsCircle.setPosition(0, FlxG.height);
+		add(statsCircle);*/
 		add(buttonsBackground);
 	}
 	/**

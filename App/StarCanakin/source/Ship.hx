@@ -46,7 +46,11 @@ class Ship extends FlxSpriteGroup
 	
 	var hpBar:FlxBar;
 	var shieldBar:FlxBar;
-
+	
+	//vibrační hodnoty
+	private var vibrate:Bool = false;
+	private var vibrationCounter = 0;
+	
 	public function new() 
 	{
 		super();
@@ -66,6 +70,41 @@ class Ship extends FlxSpriteGroup
 		super.update();
 		hpBar.currentValue = currentHP;
 		shieldBar.currentValue = currentShield;
+		
+		//vibrations
+		if (vibrate) 
+		{
+			if (vibrationCounter == 0) 
+			{
+				vibrationCounter = 15;
+			}
+			
+			switch (vibrationCounter%5) 
+			{
+				case 1:
+					this.x += 2;
+					this.y += 2;
+				case 2:
+					this.y -= 4;
+				case 3:
+					this.x -= 4;
+				case 4:
+					this.y += 2;
+				case 0:
+					this.x += 2;
+				default:
+					
+			}
+			
+			vibrationCounter--;
+			
+			if (vibrationCounter == 0) 
+			{
+				vibrate = false;
+			}
+			
+			
+		}
 	}
 	
 	/**
@@ -303,7 +342,7 @@ class Ship extends FlxSpriteGroup
 	 * Tato metoda slouží k poškození lodi. Poškodí štít a pokud jej zničí a projde skrze, poškodí loď.
 	 * @param	dmg intagerová hodnota čistého dmg, která bude rovnou počítána se štítem a HP dané lodi
 	 */
-	public function DoDamage(dmg:Int):Int
+	public function DoDamage(dmg:Int)
 	{ 
 		var sumHeatlth:Int = currentHP + currentShield - dmg;
 		trace("DoDamage method: Damage recieved " + dmg + " current HP " + currentHP + " current shield " + currentShield);
@@ -321,10 +360,21 @@ class Ship extends FlxSpriteGroup
 			currentShield -= dmg;
 		}
 		trace("DoDamage method: Damage recieved " + dmg + " current HP after action " + currentHP + " current shield after action " + currentShield);
-		return dmg;
+		var dmglbl = new DamageIndicator(20, 0, dmg, true);
+		add(dmglbl);
+		
+		//set vibration
+		if (dmg > 0) 
+		{
+			vibrate = true;
+		}
+		
+		
 		
 		
 	}	
+	
+	
 	/**
 	 * Tato metoda by měla být použita pro boostnutí vlastností nebo zvýšení vlastností při levelování.
 	 * @param	statName vlastnost, která bude navýšena
@@ -413,16 +463,16 @@ class Ship extends FlxSpriteGroup
 	{
 		if (player)
 		{
-			hpBar = new FlxBar(FlxG.width * 0.05, FlxG.height * 0.65, FlxBar.FILL_LEFT_TO_RIGHT, Std.int(FlxG.width * 0.2), Std.int(FlxG.height * 0.05), null, "", 0, hitpoints, true);
+			hpBar = new FlxBar(0, 0, FlxBar.FILL_LEFT_TO_RIGHT, Std.int(FlxG.width * 0.2), Std.int(FlxG.height * 0.05), null, "", 0, hitpoints, true);
 			hpBar.createFilledBar(0xFF720000,FlxColor.RED,true);
 			add(hpBar);
 			
-			shieldBar = new FlxBar(FlxG.width * 0.05, FlxG.height * 0.55, FlxBar.FILL_LEFT_TO_RIGHT, Std.int(FlxG.width * 0.2), Std.int(FlxG.height * 0.05), null, "", 0, shield, true);
+			shieldBar = new FlxBar(FlxG.width * 0.1, FlxG.height * 0.15, FlxBar.FILL_LEFT_TO_RIGHT, Std.int(FlxG.width * 0.2), Std.int(FlxG.height * 0.05), null, "", 0, shield, true);
 			add(shieldBar);
 		}else
 		{
 			hpBar = new FlxBar(0, 0, FlxBar.FILL_LEFT_TO_RIGHT, Std.int(FlxG.width * 0.2), Std.int(FlxG.height * 0.05), null, "", 0, hitpoints, true);
-			hpBar.setPosition(FlxG.width * 0.95 - hpBar.width, FlxG.height * 0.65);
+			hpBar.setPosition(FlxG.width * 0.5 - hpBar.width, FlxG.height * 0.65);
 			hpBar.createFilledBar(0xFF720000,FlxColor.RED,true);
 			add(hpBar);
 			

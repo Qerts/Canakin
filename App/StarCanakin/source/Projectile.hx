@@ -1,6 +1,7 @@
 package;
 import flixel.FlxSprite;
 import flixel.group.FlxSpriteGroup;
+import haxe.Timer;
 import openfl.geom.Point;
 
 /**
@@ -14,6 +15,7 @@ class Projectile extends FlxSpriteGroup
 	var start:Point;
 	var target:Point;
 	var speed:Point;
+	var rangeCounter:Int;
 	
 	
 	public function new(startX:Int, startY:Int, targetX:Int, targetY:Int, type:ProjectileType, bearingDmg:Int = 0, speed:Int = 10) 
@@ -25,6 +27,7 @@ class Projectile extends FlxSpriteGroup
 		projectile.setPosition(startX, startY);
 		start = new Point(startX, startY);
 		target = new Point(targetX, targetY);
+		this.rangeCounter = speed;
 		
 		ClaculateSpeed(speed);
 		
@@ -39,6 +42,8 @@ class Projectile extends FlxSpriteGroup
 				//přiřadit skin
 			default:				
 		}
+		
+		
 		
 		add(projectile);
 	}
@@ -67,6 +72,7 @@ class Projectile extends FlxSpriteGroup
 		trace("HEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEELLLLOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO", xrange, yrange, speed);
 	}
 	
+	
 	override public function update():Void 
 	{
 		super.update();
@@ -89,10 +95,15 @@ class Projectile extends FlxSpriteGroup
 			projectile.y += speed.y;
 		}
 		
-		if (this.x == target.x) 
+		
+		if (rangeCounter <= 0) 
 		{
 			this.destroy();
+		}else 
+		{
+			rangeCounter--;
 		}
+		
 	}
 	
 }

@@ -8,6 +8,7 @@ import flixel.ui.FlxButton;
 import flixel.util.FlxMath;
 import flixel.addons.display.FlxStarField;
 import flixel.util.FlxColor;
+import haxe.Timer;
 import openfl.display.Graphics;
 
 /**
@@ -88,6 +89,11 @@ class PlayState extends FlxState
 			switch (enemy.GetDecision()) 
 			{
 				case Decision.ATTACK:
+					//set projectile
+					var projectile:Projectile = new Projectile(Std.int(enemy.x + enemy.width * 0.05), Std.int(enemy.y + enemy.height * 0.2), Std.int(player.x + player.width * 0.8), Std.int(player.y + player.height * 0.5), ProjectileType.Laser, 0, 10);
+					add(projectile);
+					
+					
 					if (player.GetDecision() == Decision.EVADE) 
 					{
 						enemyDMG = enemy.Attack();
@@ -99,9 +105,7 @@ class PlayState extends FlxState
 					//útok enemy je snížen o evadation playera a poté je odečten od jeho statů			
 					enemyDMG = Std.int(enemyDMG * playerEVADATION);
 					player.DoDamage(enemyDMG);		
-					//set projectile
-					var projectile:Projectile = new Projectile(Std.int(enemy.x), Std.int(enemy.y), Std.int(player.x), Std.int(player.y), ProjectileType.Laser, 0, 10);
-					add(projectile);
+					
 				case Decision.EVADE:
 					enemyEVADATION = enemy.Evade();
 				case Decision.BOOSTWP:
@@ -122,6 +126,11 @@ class PlayState extends FlxState
 			switch (player.GetDecision()) 
 			{
 				case Decision.ATTACK:
+					var projectile = new Projectile(Std.int(player.x + player.width * 0.8), Std.int(player.y + player.height * 0.5), Std.int(enemy.x + enemy.width * 0.1), Std.int(enemy.y + player.height * 0.5), ProjectileType.Laser, 0, 10);
+					add(projectile);
+					
+					
+					
 					if (enemy.GetDecision() == Decision.EVADE) 
 					{
 						playerDMG = player.Attack();
@@ -133,7 +142,7 @@ class PlayState extends FlxState
 					//útok playera je snížen o evadation enemy a poté je odečten od jeho statů
 					playerDMG = Std.int(playerDMG * enemyEVADATION);
 					enemy.DoDamage(playerDMG);	
-					add(new Projectile(Std.int(player.x), Std.int(player.y), Std.int(enemy.x), Std.int(enemy.y), ProjectileType.Laser, 0, 10));
+					
 				case Decision.EVADE:
 					playerEVADATION = player.Evade();
 				case Decision.BOOSTWP:

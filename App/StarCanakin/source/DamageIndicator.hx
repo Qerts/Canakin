@@ -26,12 +26,14 @@ class DamageIndicator extends FlxSpriteGroup
 	 * @param	y Vertikální pozice čísla
 	 * @param	dmg Text
 	 * @param	left Zda číslo bude plout doleva. Pokud je false, popluje doprava.
+	 * @param   delay Zpoždění animace v milisekundách
 	 * @param	color Barva písma, zadat ve formátu 0x000000
 	 * @param	miliseconds Počet milisekund, po které bude číslo viditelné
 	 */
-	public function new(x:Int, y:Int, dmg:Int, left:Bool = true, color:Int = 0xffffff, miliseconds:Int = 4000, fonsize:Int = 15) 
+	public function new(x:Int, y:Int, dmg:Int, left:Bool = true, delay:Int = 0, color:Int = 0xffffff, miliseconds:Int = 4000, fonsize:Int = 15) 
 	{
 		super();
+		
 		
 		dmgLabel = new FlxText(x, y, 200, " " + dmg + " ", fonsize);
 		dmgLabel.color = color;
@@ -41,6 +43,7 @@ class DamageIndicator extends FlxSpriteGroup
 		
 		var timer = new FlxTimer(miliseconds / 100000, DecreaseOpacity, 10);
 	}
+	
 	
 	override function update()
 	{

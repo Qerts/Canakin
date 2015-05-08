@@ -30,7 +30,7 @@ class Enemy extends Ship
 		random = FlxRandom.intRanged(1, 4);	
 		ship = new FlxSpriteGroup();
 		ship.add(ShipGenerator.getShip());
-		add(ship);
+		
 		
 		setPosition(FlxG.width * 0.95-ship.width,FlxG.height*0.15);
 		ship.angle = 180;
@@ -43,6 +43,8 @@ class Enemy extends Ship
 		testText = new FlxTextField(540, 0, 100, "Player \nWeapon: " + weaponPower + "\nHP: " + currentHP + "/" + hitpoints + "\nShield: " + currentShield + "/" + shield + "\nShield recovery: " + shieldRecovery + "\nEnergy: " + currentEnergy +"/" + energyLevel);
 		add(testText);
 		createBars(false);
+		
+		add(ship);
 	}
 	
 	override function update():Void

@@ -22,7 +22,7 @@ class Player extends Ship
 		
 		ship = new FlxSpriteGroup();
 		ship.add(ShipGenerator.getShip());
-		add(ship);
+		
 		
 		setPosition(FlxG.width * 0.05, FlxG.height * 0.15);
 		status = Status.STARTING;
@@ -33,6 +33,8 @@ class Player extends Ship
 		
 		initStats();
 		createBars(true);
+		
+		add(ship);
 		
 	}
 	

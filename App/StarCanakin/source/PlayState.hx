@@ -90,7 +90,7 @@ class PlayState extends FlxState
 			{
 				case Decision.ATTACK:
 					//set projectile
-					var projectile:Projectile = new Projectile(Std.int(enemy.x + enemy.width * 0.05), Std.int(enemy.y + enemy.height * 0.2), Std.int(player.x + player.width * 0.8), Std.int(player.y + player.height * 0.5), ProjectileType.Laser, 0, 10);
+					var projectile:Projectile = new Projectile(Std.int(enemy.x + enemy.width * 0.05), Std.int(enemy.y + enemy.height * 0.5), Std.int(player.x + player.width * 0.8), Std.int(player.y + player.height * 0.5), ProjectileType.Laser, 0, 10);
 					add(projectile);
 					
 					

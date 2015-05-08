@@ -1,6 +1,8 @@
 package;
+import flixel.FlxSprite;
 import flixel.group.FlxSpriteGroup;
 import flixel.ui.FlxBar;
+import flixel.util.FlxPoint;
 using flixel.util.FlxRandom;
 import flixel.FlxG;
 import flixel.util.FlxColor;
@@ -44,12 +46,18 @@ class Ship extends FlxSpriteGroup
 	public var CooldownForWeapons:Int;
 	public var CooldownFowShields:Int;
 	
-	var hpBar:FlxBar;
-	var shieldBar:FlxBar;
+	
+	
 	
 	//vibrační hodnoty
 	private var vibrate:Bool = false;
 	private var vibrationCounter = 0;
+	
+	//prvky GUI
+	//var hpBar:FlxBar;
+	//var shieldBar:FlxBar;
+	var shieldSprite:FlxSprite;
+	
 	
 	public function new() 
 	{
@@ -68,8 +76,13 @@ class Ship extends FlxSpriteGroup
 	override public function update():Void 
 	{
 		super.update();
-		hpBar.currentValue = currentHP;
-		shieldBar.currentValue = currentShield;
+		//hpBar.currentValue = currentHP;
+		//shieldBar.currentValue = currentShield;
+		
+		//update shield opacity
+		var opacity:Float = (currentShield / (shield / 100)) / 100;
+		shieldSprite.alpha = opacity;
+		
 		
 		//vibrations
 		if (vibrate) 
@@ -338,6 +351,9 @@ class Ship extends FlxSpriteGroup
 		}
 	}
 	
+
+	
+	
 	/**
 	 * Tato metoda slouží k poškození lodi. Poškodí štít a pokud jej zničí a projde skrze, poškodí loď.
 	 * @param	dmg intagerová hodnota čistého dmg, která bude rovnou počítána se štítem a HP dané lodi
@@ -367,11 +383,7 @@ class Ship extends FlxSpriteGroup
 		if (dmg > 0) 
 		{
 			vibrate = true;
-		}
-		
-		
-		
-		
+		}	
 	}	
 	
 	
@@ -459,8 +471,30 @@ class Ship extends FlxSpriteGroup
 		status = Status.WAITING;
 	}
 	
+	/**
+	 * Tato metoda vytváří elementy GUI, které zobrazují HP a Shield lodi.
+	 * @param	player
+	 */
 	private function createBars(player:Bool):Void
 	{
+		
+		if(player){
+			shieldSprite = new FlxSprite(this.x, this.y);
+			shieldSprite.loadGraphic("assets/images/shield.png");
+			shieldSprite.scale = new FlxPoint(1, 2);
+			shieldSprite.setPosition(this.x - this.width * 0.5, this.y - this.height * 1.2);
+			add(shieldSprite);
+		}else 
+		{
+			shieldSprite = new FlxSprite(this.x, this.y);
+			shieldSprite.loadGraphic("assets/images/shield.png");
+			shieldSprite.scale = new FlxPoint(1,2);
+			shieldSprite.setPosition(this.x - this.width * 5, this.y - this.height * 1.2);
+			add(shieldSprite);
+		}
+		
+		
+		/*
 		if (player)
 		{
 			hpBar = new FlxBar(0, 0, FlxBar.FILL_LEFT_TO_RIGHT, Std.int(FlxG.width * 0.2), Std.int(FlxG.height * 0.05), null, "", 0, hitpoints, true);
@@ -479,7 +513,8 @@ class Ship extends FlxSpriteGroup
 			shieldBar = new FlxBar(0,0, FlxBar.FILL_LEFT_TO_RIGHT, Std.int(FlxG.width * 0.2), Std.int(FlxG.height * 0.05), null, "", 0, shield, true);
 			shieldBar.setPosition(FlxG.width * 0.95 - hpBar.width, FlxG.height * 0.55);
 			add(shieldBar);
-		}
+		}*/
+		
 	}
 	
 	public function GetEnergyValue():Int { return currentEnergy; }

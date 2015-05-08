@@ -231,11 +231,7 @@ class PlayState extends FlxState
 		buttonsBackground = new FlxSprite();
 		buttonsBackground.makeGraphic(FlxG.width, Std.int(FlxG.height * 0.3), FlxColor.GRAY);
 		buttonsBackground.setPosition(0, FlxG.height * 0.7);
-		/*
-		statsCircle = new FlxSprite();
-		statsCircle.  makeGraphic(Std.int(FlxG.width * 0.4), Std.int(FlxG.width * 0.4), FlxColor.GRAY);
-		statsCircle.setPosition(0, FlxG.height);
-		add(statsCircle);*/
+		
 		add(buttonsBackground);
 	}
 	/**

@@ -126,8 +126,12 @@ class PlayState extends FlxState
 					enemy.Boost(StatName.ShieldRecovery, true);		
 				case Decision.NOTDECIDED:
 				case Decision.AIMSHIELDS:
+					var projectile:Projectile = new Projectile(Std.int(enemy.x + enemy.width * 0.05), Std.int(enemy.y + enemy.height * 0.5), Std.int(player.x + player.width * 0.8), Std.int(player.y + player.height * 0.5), ProjectileType.ShieldAimedMissile, 0, 10);
+					add(projectile);
 					player.AimedForShields(enemy.AimForShields());
 				case Decision.AIMWEAPONS:
+					var projectile:Projectile = new Projectile(Std.int(enemy.x + enemy.width * 0.05), Std.int(enemy.y + enemy.height * 0.5), Std.int(player.x + player.width * 0.8), Std.int(player.y + player.height * 0.5), ProjectileType.WeaponAimedMissile, 0, 10);
+					add(projectile);
 					player.AimedForWeapons(enemy.AimForWeapons());
 					
 			}
@@ -163,8 +167,12 @@ class PlayState extends FlxState
 					player.Boost(StatName.ShieldRecovery, true);	
 				case Decision.NOTDECIDED:
 				case Decision.AIMSHIELDS:
+					var projectile = new Projectile(Std.int(player.x + player.width * 0.8), Std.int(player.y + player.height * 0.5), Std.int(enemy.x + enemy.width * 0.1), Std.int(enemy.y + player.height * 0.5), ProjectileType.ShieldAimedMissile, 0, 10);
+					add(projectile);
 					enemy.AimedForShields(player.AimForShields());
 				case Decision.AIMWEAPONS:
+					var projectile = new Projectile(Std.int(player.x + player.width * 0.8), Std.int(player.y + player.height * 0.5), Std.int(enemy.x + enemy.width * 0.1), Std.int(enemy.y + player.height * 0.5), ProjectileType.WeaponAimedMissile, 0, 10);
+					add(projectile);
 					enemy.AimedForWeapons(player.AimForWeapons());
 			}
 			

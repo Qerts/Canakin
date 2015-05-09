@@ -4,6 +4,7 @@ import flixel.group.FlxSpriteGroup;
 import haxe.Timer;
 import openfl.geom.Point;
 import flixel.util.FlxRandom;
+import flixel.util.FlxColor;
 
 /**
  * ...
@@ -37,10 +38,13 @@ class Projectile extends FlxSpriteGroup
 		{
 			case ProjectileType.Laser:
 				//přiřadit skin
+				projectile.color = FlxColor.RED;
 			case ProjectileType.ShieldAimedMissile:
 				//přiřadit skin
+				projectile.color = FlxColor.YELLOW;
 			case ProjectileType.WeaponAimedMissile:
 				//přiřadit skin
+				projectile.color = FlxColor.BLUE;
 			default:				
 		}
 		
@@ -70,7 +74,6 @@ class Projectile extends FlxSpriteGroup
 		}
 		
 		speed = new Point(xrange / speedRatio, yrange / speedRatio);
-		trace("HEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEELLLLOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO", xrange, yrange, speed);
 	}
 	
 	

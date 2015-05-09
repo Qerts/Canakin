@@ -31,6 +31,7 @@ class Player extends Ship
 		//testovací textfield
 		testText = new FlxTextField(0, 0, 100, "Player \nWeapon: " + weaponPower + "\nHP: " + currentHP + "/" + hitpoints + "\nShield: " + currentShield + "/" + shield + "\nShield recovery: " + shieldRecovery + "\nEnergy: " + currentEnergy +"/" + energyLevel);
 		add(testText);
+		testText.alpha = 0;
 		
 		initStats();
 		createBars(true);
@@ -55,7 +56,7 @@ class Player extends Ship
 		
 		
 		//vyplnění testovacího boxu
-		testText.text = "Player \nWeapon: " + weaponPower + "\nHP: " + currentHP + "/" + hitpoints + "\nShield: " + currentShield + "/" + shield + "\nShield recovery: " + shieldRecovery + "\nEnergy: " + currentEnergy +"/" + energyLevel;
+		//testText.text = "Player \nWeapon: " + weaponPower + "\nHP: " + currentHP + "/" + hitpoints + "\nShield: " + currentShield + "/" + shield + "\nShield recovery: " + shieldRecovery + "\nEnergy: " + currentEnergy +"/" + energyLevel;
 
 		//pokud je starting, tak se přepne na deciding
 		if (status == Status.STARTING) 

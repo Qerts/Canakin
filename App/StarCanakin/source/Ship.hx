@@ -501,6 +501,7 @@ class Ship extends FlxSpriteGroup
 			shieldSprite.loadGraphic("assets/images/shield.png");
 			shieldSprite.scale = new FlxPoint(1,2);
 			shieldSprite.setPosition(this.x - this.width * 5, this.y - this.height * 1.2);
+			trace("souřadnice", this.width, this.height);
 			add(shieldSprite);
 		}
 		

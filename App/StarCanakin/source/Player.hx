@@ -16,10 +16,11 @@ class Player extends Ship
 	var cam:FlxCamera;
 	var testText:FlxTextField;
 	
+	
 	public function new() 
 	{
 		super();
-		
+				
 		ship = new FlxSpriteGroup();
 		ship.add(ShipGenerator.getShip());
 		
@@ -50,6 +51,9 @@ class Player extends Ship
 	override function update():Void
 	{
 		super.update();
+		
+		
+		
 		//vyplnění testovacího boxu
 		testText.text = "Player \nWeapon: " + weaponPower + "\nHP: " + currentHP + "/" + hitpoints + "\nShield: " + currentShield + "/" + shield + "\nShield recovery: " + shieldRecovery + "\nEnergy: " + currentEnergy +"/" + energyLevel;
 

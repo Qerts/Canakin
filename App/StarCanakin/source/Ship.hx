@@ -37,6 +37,8 @@ class Ship extends FlxSpriteGroup
 	var currentShield:Int;
 	var currentEnergy:Int;
 	
+	public var currentHpPercentage:Float;
+	
 	public var level:Int;
 	
 	//Cooldowny
@@ -71,6 +73,8 @@ class Ship extends FlxSpriteGroup
 		decision = Decision.NOTDECIDED;
 		
 		initStats();
+		
+		currentHpPercentage = 100;
 	}
 	
 	override public function update():Void 
@@ -80,6 +84,9 @@ class Ship extends FlxSpriteGroup
 		//shieldBar.currentValue = currentShield;
 		
 		//update shield opacity
+		
+		currentHpPercentage = (currentHP / hitpoints) * 100;
+		
 		var opacity:Float = (currentShield / (shield / 100)) / 100;
 		if (opacity <= 0.20) 
 		{

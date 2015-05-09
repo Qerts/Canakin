@@ -47,6 +47,13 @@ class PlayState extends FlxState
 	var buttonAimForWeapons:FlxButton;
 	var buttonAimForShields:FlxButton;
 		
+	
+	
+	var crack1:FlxSprite;
+	var crack2:FlxSprite;
+	var crack3:FlxSprite;
+	
+	
 	override public function create():Void
 	{
 		super.create();
@@ -61,6 +68,8 @@ class PlayState extends FlxState
 		add(player);
 		enemy = new Enemy();	
 		add(enemy);		
+		
+		createCracks();
 	}
 	
 	override public function destroy():Void
@@ -72,6 +81,7 @@ class PlayState extends FlxState
 	{
 		super.update();
 		
+		updateCracks();
 		//testovací scénář
 		newGameForTest();
 		
@@ -404,6 +414,46 @@ class PlayState extends FlxState
 		}else 
 		{
 			buttonAimForShields.visible = true;
+		}
+	}
+	
+	private function createCracks()
+	{
+		crack1 = new FlxSprite(FlxG.camera.x,FlxG.camera.y,"assets/images/glass_crack1.png");
+		crack1.visible = false;
+		add(crack1);
+		
+		crack2 = new FlxSprite(0,0,"assets/images/glass_crack2.png");
+		crack2.visible = false;
+		add(crack2);
+		
+		crack3 = new FlxSprite(0,0,"assets/images/glass_crack3.png");
+		crack3.visible = false;
+		add(crack3);
+	}
+	
+	private function updateCracks()
+	{
+		if (player.currentHpPercentage < 60)
+		{
+			crack1.visible = true;
+		}
+		
+		if (player.currentHpPercentage < 40)
+		{
+			crack2.visible = true;
+		}
+		
+		if (player.currentHpPercentage < 20)
+		{
+			crack3.visible = true;
+		}
+		
+		if (player.currentHpPercentage >= 100)
+		{
+			crack1.visible = false;
+			crack2.visible = false;
+			crack3.visible = false;
 		}
 	}
 //}

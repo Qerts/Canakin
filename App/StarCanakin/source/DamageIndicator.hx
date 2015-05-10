@@ -30,12 +30,12 @@ class DamageIndicator extends FlxSpriteGroup
 	 * @param	color Barva písma, zadat ve formátu 0x000000
 	 * @param	miliseconds Počet milisekund, po které bude číslo viditelné
 	 */
-	public function new(x:Int, y:Int, dmg:Int, left:Bool = true, delay:Int = 0, color:Int = 0xffffff, miliseconds:Int = 4000, fonsize:Int = 15) 
+	public function new(x:Int, y:Int, dmg:String, left:Bool = true, delay:Int = 0, color:Int = 0xffffff, miliseconds:Int = 4000, fonsize:Int = 15) 
 	{
 		super();
 		
 		
-		dmgLabel = new FlxText(x, y, 200, " " + dmg + " ", fonsize);
+		dmgLabel = new FlxText(x, y, 200, dmg, fonsize);
 		dmgLabel.color = color;
 		flyToTheLeft = left;
 		fadeTime = miliseconds;

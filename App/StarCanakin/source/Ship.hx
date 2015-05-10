@@ -387,8 +387,11 @@ class Ship extends FlxSpriteGroup
 			currentShield -= dmg;
 		}
 		trace("DoDamage method: Damage recieved " + dmg + " current HP after action " + currentHP + " current shield after action " + currentShield);
-		var dmglbl = new DamageIndicator(20, 0, dmg, true, 1000);
+		
+		var hullmessage:String = "This is message";
+		var dmglbl = new DamageIndicator(20, 0, hullmessage, true, 1000);
 		add(dmglbl);
+		
 		
 		//set vibration
 		if (dmg > 0) 

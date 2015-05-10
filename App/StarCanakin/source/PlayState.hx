@@ -54,14 +54,19 @@ class PlayState extends FlxState
 	var crack3:FlxSprite;
 	
 	
+	var ui:UserInterface;
+	
+	
 	override public function create():Void
 	{
 		super.create();
 		
+		
 		//inicializace prostředí
 		SetStars();
-		SetButtonsBakcground();
-		SetButtons();
+		SetUI();
+		//SetButtonsBakcground();
+		//SetButtons();
 		
 		//inicializace lodí
 		player = Player.getPlayer();	
@@ -232,6 +237,12 @@ class PlayState extends FlxState
 	}
 	
 //{ USER INTERFACE, INCLUDING BUTTONS
+	private function SetUI()
+	{
+		ui = new UserInterface();
+		ui.setPosition(0,0);
+		add(ui);
+	}
 	/**
 	 * Vytvoří v pozadí nekonečný vesmír plný hvězd zářících jako rozsypaný náhrdelník z perel.
 	 */
@@ -241,147 +252,63 @@ class PlayState extends FlxState
 		stars.setStarSpeed(3,10);
 		add(stars);
 	}
-	/**
-	 * Vytvoří panel pro tlačítka.
-	 */
-	private function SetButtonsBakcground()
-	{
-		buttonsBackground = new FlxSprite();
-		buttonsBackground.makeGraphic(FlxG.width, Std.int(FlxG.height * 0.3), FlxColor.GRAY);
-		buttonsBackground.setPosition(0, FlxG.height * 0.7);
-		
-		add(buttonsBackground);
-	}
-	/**
-	 * Initializuje tlačítka.
-	 */
-	private function SetButtons():Void
-	{
-		//Buttons
-		buttonAttack = new FlxButton(0, 0, "", AttackButton);
-		buttonAttack.loadGraphic("assets/images/buttons/attack_button.png");
-		buttonAttack.setPosition(FlxG.width * 0.3 - (buttonAttack.width / 2), FlxG.height * 0.75);
-		add(buttonAttack);
-		
-		buttonEvade = new FlxButton(0, 0, "", EvadeButton);
-		buttonEvade.loadGraphic("assets/images/buttons/evade_button.png");
-		buttonEvade.setPosition(FlxG.width*0.5 - (buttonEvade.width/2), FlxG.height * 0.75);
-		add(buttonEvade);
-		
-		buttonBoost = new FlxButton(0, 0, "", BoostButton);
-		buttonBoost.loadGraphic("assets/images/buttons/boost_button.png",false,128,128,false);
-		buttonBoost.setPosition(FlxG.width * 0.7 - (buttonBoost.width/2), FlxG.height * 0.75);
-		add(buttonBoost);
-		
-		buttonBoostExit = new FlxButton(0, 0, "Back", BoostExitButton);
-		buttonBoostExit.setPosition(FlxG.width * 0.7 -(buttonBoostExit.width / 2), FlxG.height * 0.9);
-		buttonBoostExit.visible = false;
-		add(buttonBoostExit);
-		
-		buttonBoostHP = new FlxButton(0,0, "Weapons", BoostWPButton);
-		buttonBoostHP.setPosition(FlxG.width * 0.3 -(buttonBoostHP.width / 2), FlxG.height * 0.8);
-		buttonBoostHP.visible = false;
-		add(buttonBoostHP);
-		
-		buttonBoostS = new FlxButton(0,0, "Shield", BoostSButton);
-		buttonBoostS.setPosition(FlxG.width * 0.5 -(buttonBoostS.width / 2), FlxG.height * 0.8);
-		buttonBoostS.visible = false;
-		add(buttonBoostS);
-		
-		buttonBoostSR = new FlxButton(0,0, "Generator", BoostSRButton);
-		buttonBoostSR.setPosition(FlxG.width * 0.7 - (buttonBoostSR.width / 2), FlxG.height * 0.8);
-		buttonBoostSR.visible = false;
-		add(buttonBoostSR);
-		
-		buttonAimForShields = new FlxButton(0,0, "Aim shields", AimShields);
-		buttonAimForShields.setPosition(FlxG.width * 0.3 - (buttonAimForShields.width / 2), FlxG.height * 0.9);
-		add(buttonAimForShields);
-		
-		buttonAimForWeapons = new FlxButton(0,0, "Aim weapons", AimWeapons);
-		buttonAimForWeapons.setPosition(FlxG.width * 0.5 - (buttonAimForWeapons.width / 2), FlxG.height * 0.9);
-		add(buttonAimForWeapons);
-		
-		
-	}
+	
+	
 //}
 //{ BUTTON METHODS
 
 	private function buttonService()
 	{
-		//pro kontrolu hráčovy energie
-		checkBoost();
-		//pro kontrolu cooldownů
-		checkCooldowns();
-	}
-	private function AttackButton()
-	{
-		player.SetDecision(Decision.ATTACK);
-	}
-	private function EvadeButton()
-	{
-		player.SetDecision(Decision.EVADE);
-	}
-	private function BoostButton() 
-	{
-		buttonBoost.visible = false;
-		buttonBoostExit.visible = true;
-		buttonAttack.visible = false;
-		buttonBoostHP.visible = true;
-		buttonBoostS.visible = true;
-		buttonBoostSR.visible = true;
-		buttonEvade.visible = false;		
-	}
-	private function BoostWPButton() 
-	{ 
-		player.SetDecision(Decision.BOOSTWP);
-	}
-	private function BoostSButton() 
-	{
-		player.SetDecision(Decision.BOOSTSHIELD);
-	}
-	private function BoostSRButton() 
-	{
-		player.SetDecision(Decision.BOOSTSHIELDRECOVERY);
-	}
-	private function BoostExitButton() 
-	{
-		buttonBoost.visible = true;
-		buttonBoostExit.visible = false;
-		buttonAttack.visible = true;
-		buttonBoostHP.visible = false;
-		buttonBoostS.visible = false;
-		buttonBoostSR.visible = false;
-		buttonEvade.visible = true;
-	}
-	
-	private function AimWeapons()
-	{
-		player.SetDecision(Decision.AIMWEAPONS);
-	}
-	
-	private function AimShields()
-	{
-		player.SetDecision(Decision.AIMSHIELDS);
-	}
-	
-	/**
-	 * Pokud hráč nemá žádnou volnou energii, zmizí mu boostovací tlačítko.
-	 */
-	private function checkBoost()
-	{
-		if (player.GetEnergyValue() == 0 || buttonBoostExit.visible == true) 
+		var values = ui.GetPushedButtons();
+		if (values[0]) 
 		{
-			buttonBoost.visible = false;
+			player.SetDecision(Decision.ATTACK);
 		}else 
 		{
-			buttonBoost.visible = true;
-		}
-		if (player.GetEnergyValue() == 0) 
-		{
-			BoostExitButton();
-			buttonBoost.visible = false;
+			if (values[1]) 
+			{
+				player.SetDecision(Decision.EVADE);
+			}else 
+			{
+				if (values[2]) 
+				{
+					player.SetDecision(Decision.AIMWEAPONS);
+				}else 
+				{
+					if (values[3]) 
+					{
+						player.SetDecision(Decision.AIMSHIELDS);
+					}else 
+					{
+						if (values[4]) 
+						{
+							switch(ui.GetBoostStat())
+							{
+								case StatName.EnergyLevel:
+								case StatName.HealthPoints:
+								case StatName.Luck:
+								case StatName.ShieldPoints:
+									player.SetDecision(Decision.BOOSTSHIELD);
+								case StatName.ShieldRecovery:
+									player.SetDecision(Decision.BOOSTSHIELDRECOVERY);
+								case StatName.WeaponPower:
+									player.SetDecision(Decision.BOOSTWP);
+									
+							}
+						}
+					}	
+				}	
+			}
 		}
 	}
+	
+	
+	
+	
+	
+	
+	
+	
 	private function checkCooldowns()
 	{
 		if (player.CooldownForEvade > 0)

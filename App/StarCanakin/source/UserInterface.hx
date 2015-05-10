@@ -109,6 +109,8 @@ class UserInterface extends FlxSpriteGroup
 		textBox.text = "HULL    |||||||||||||||||||| 100%" + "\nSHIELD |||||||||||||||||||| 100%" + "\nSHIELD REGEN RATE 5" + "\nWEAPON EFFICIENCY 15";
 		add(textBox);
 		
+		//pro nastavení počáteční hodnoty boostu
+		BoostShieldButton();
 	}
 	
 	/**
@@ -179,15 +181,33 @@ class UserInterface extends FlxSpriteGroup
 	/**
 	 * Metoda nastavující vlastnost pro boost na shield recovery.
 	 */
-	private function BoostShieldRecoveryButton():Void { chosenBoostStat = StatName.ShieldRecovery; }
+	private function BoostShieldRecoveryButton():Void 
+	{ 
+		chosenBoostStat = StatName.ShieldRecovery;
+		boostShieldRecoveryButton.color = FlxColor.AQUAMARINE;
+		boostWeaponsButton.color = FlxColor.FOREST_GREEN;
+		boostShiledButton.color = FlxColor.FOREST_GREEN;
+	}
 	/**
 	 * Metoda nastavující vlastnost pro boost na shield points.
 	 */
-	private function BoostShieldButton():Void { chosenBoostStat = StatName.ShieldPoints; }
+	private function BoostShieldButton():Void 
+	{ 
+		chosenBoostStat = StatName.ShieldPoints; 
+		boostShieldRecoveryButton.color = FlxColor.FOREST_GREEN;
+		boostWeaponsButton.color = FlxColor.FOREST_GREEN;
+		boostShiledButton.color = FlxColor.AQUAMARINE;
+	}
 	/**
 	 * Metoda nastavující vlastnost pro boost na weapon power.
 	 */
-	private function BoostWeaponButton():Void { chosenBoostStat = StatName.WeaponPower; }
+	private function BoostWeaponButton():Void 
+	{ 
+		chosenBoostStat = StatName.WeaponPower;
+		boostShieldRecoveryButton.color = FlxColor.FOREST_GREEN;
+		boostWeaponsButton.color = FlxColor.AQUAMARINE;
+		boostShiledButton.color = FlxColor.FOREST_GREEN;
+	}
 	
 	
 	

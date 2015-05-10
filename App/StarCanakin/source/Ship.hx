@@ -388,8 +388,19 @@ class Ship extends FlxSpriteGroup
 		}
 		trace("DoDamage method: Damage recieved " + dmg + " current HP after action " + currentHP + " current shield after action " + currentShield);
 		
+		//v této metodě musí být předáno procento života, případně procento štítu následujícím zpsobem:
+		//pokud je funkční štít, je předáno procento štítu + 100
+		//pokud štít funkční není, je předáno jen procento života
+		//je to důležité pro určení hlášky ve tříde DamageIndicator
 		var hullmessage:String = "This is message";
-		var dmglbl = new DamageIndicator(20, 0, hullmessage, true, 1000);
+		if (currentShield > 0) 
+		{
+			hullmessage = Std.string((currentShield / (shield / 100)) + 100);
+		}else 
+		{
+			hullmessage = Std.string((currentHP / (hitpoints / 100)));
+		}		
+		var dmglbl = new DamageIndicator(20, 0, hullmessage, true, 1000, 0xffffff, 2000);
 		add(dmglbl);
 		
 		

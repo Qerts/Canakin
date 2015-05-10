@@ -309,48 +309,7 @@ class PlayState extends FlxState
 	
 	
 	
-	private function checkCooldowns()
-	{
-		if (player.CooldownForEvade > 0)
-		{
-			buttonEvade.visible = false;
-		}
-		else 
-		{
-			buttonEvade.visible = true;
-		}
-		if (player.CooldownForWeapons > 0) 
-		{
-			buttonAttack.visible = false;
-		}else 
-		{
-			buttonAttack.visible = true;
-		}
-		
-		if (player.CooldownForAimForShields > 0) 
-		{
-			buttonAimForShields.visible = false;
-		}else 
-		{
-			buttonAimForShields.visible = true;
-		}
-		
-		if (player.CooldownForAimForWeapons > 0) 
-		{
-			buttonAimForWeapons.visible = false;
-		}else 
-		{
-			buttonAimForWeapons.visible = true;
-		}
-		
-		if (player.CooldownForAimForShields > 0) 
-		{
-			buttonAimForWeapons.visible = false;
-		}else 
-		{
-			buttonAimForShields.visible = true;
-		}
-	}
+	
 	
 	private function createCracks()
 	{

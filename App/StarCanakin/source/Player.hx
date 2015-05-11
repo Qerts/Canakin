@@ -48,6 +48,12 @@ class Player extends Ship
 			return player;
 	}
 	
+	public function resetStats():Void
+	{
+		player.currentHP = player.hitpoints;
+		player.currentShield = player.shield;
+		player.currentEnergy = player.energyLevel;
+	}
 	
 	override function update():Void
 	{

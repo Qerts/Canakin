@@ -1,5 +1,6 @@
 package states;
 import flixel.FlxState;
+import flixel.FlxG;
 
 /**
  * ...
@@ -7,7 +8,8 @@ import flixel.FlxState;
  */
 class NextBattleState extends FlxState
 {
-
+	var player:Player;
+	
 	public function new() 
 	{
 		super();
@@ -16,5 +18,16 @@ class NextBattleState extends FlxState
 	override public function create():Void 
 	{
 		super.create();
+		Player.getPlayer().resetStats();
+	}
+	
+	override public function update():Void 
+	{
+		super.update();
+		
+		if (FlxG.mouse.justPressed)
+		{
+			FlxG.switchState(new PlayState());
+		}
 	}
 }

@@ -88,8 +88,9 @@ class PlayState extends FlxState
 		
 		updateCracks();
 		//testovací scénář
-		newGameForTest();
 		
+		//newGameForTest();
+		CheckForDeath();
 		//obsluha tlačítek
 		buttonService();
 		
@@ -203,6 +204,23 @@ class PlayState extends FlxState
 			player.status = Status.STARTING;
 		}
 		
+	}
+	
+	private function CheckForDeath():Void
+	{
+		if (enemy.GetHull() < 1)
+		{
+			player.destroy();
+			player = new Player();
+			FlxG.switchState(new NextBattleState());
+		}
+		
+		if (player.GetHull() < 1)
+		{
+			player.destroy();
+			player = new Player();
+			FlxG.switchState(new GameOverState());
+		}
 	}
 	
 	private function newGameForTest():Void

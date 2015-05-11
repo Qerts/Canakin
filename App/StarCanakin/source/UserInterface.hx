@@ -31,11 +31,13 @@ class UserInterface extends FlxSpriteGroup
 	var boostShiledButton:FlxSprite;
 	var boostShieldRecoveryButton:FlxSprite;
 	var boostWeaponsButton:FlxSprite;
-	//center window
-	var centerWindow:FlxSprite;
-	//text window
-	var textWindow:FlxSprite;
-	var textBox:FlxText;
+	//center area
+	var hitpointsValue:FlxSprite;
+	var hitpointsCover:FlxSprite;
+	var energyValue:FlxSprite;
+	var energyCover:FlxSprite;
+	var shieldValue:FlxSprite;
+	var shieldCover:FlxSprite;
 		
 		
 	//working values
@@ -92,53 +94,75 @@ class UserInterface extends FlxSpriteGroup
 		boostWeaponsButton.makeGraphic(Std.int(FlxG.height * 0.08), Std.int(FlxG.height * 0.08), FlxColor.FOREST_GREEN);
 		boostWeaponsButton.setPosition(FlxG.width * 0.2, FlxG.height * 0.88);
 		add(boostWeaponsButton);
-		//center window - obdelník obrazovečky
-		centerWindow = new FlxSprite();
-		centerWindow.makeGraphic(Std.int(FlxG.width * 0.4), Std.int(FlxG.height * 0.25), FlxColor.GRAY);
-		centerWindow.setPosition(FlxG.width * 0.3, FlxG.height * 0.725);
-		add(centerWindow);
-		//text window - textové pole obrazovečky
-		textWindow = new FlxSprite();
-		textWindow.makeGraphic(Std.int(FlxG.width * 0.38), Std.int(FlxG.height * 0.22), FlxColor.BLACK);
-		textWindow.setPosition(FlxG.width * 0.31, FlxG.height * 0.74);
-		add(textWindow);
-		textBox = new FlxText();
-		textBox.makeGraphic(Std.int(FlxG.width * 0.38), Std.int(FlxG.height * 0.22));
-		textBox.setPosition(FlxG.width * 0.31, FlxG.height * 0.74);
-		textBox.size = 19;
-		textBox.text = "HULL    |||||||||||||||||||| 100%" + "\nSHIELD |||||||||||||||||||| 100%" + "\nSHIELD REGEN RATE 5" + "\nWEAPON EFFICIENCY 15";
-		add(textBox);
+		//center area - oblast statbarů
+		//při otexturování bude dle textur třeba změnit pozice
+		hitpointsValue = new FlxSprite();
+		hitpointsValue.makeGraphic(Std.int(FlxG.width * 0.1), Std.int(FlxG.height * 0.1), FlxColor.GREEN);
+		hitpointsValue.setPosition(FlxG.width * 0.35, FlxG.height * 0.8);
+		add(hitpointsValue);
+		hitpointsCover = new FlxSprite();
+		hitpointsCover.makeGraphic(Std.int(FlxG.width * 0.1), Std.int(FlxG.height * 0.1), FlxColor.WHITE);
+		hitpointsCover.setPosition(FlxG.width * 0.35, FlxG.height * 0.9);
+		add(hitpointsCover);
+		energyValue = new FlxSprite();
+		energyValue.makeGraphic(Std.int(FlxG.width * 0.1), Std.int(FlxG.height * 0.1), FlxColor.YELLOW);
+		energyValue.setPosition(FlxG.width * 0.45, FlxG.height * 0.8);
+		add(energyValue);
+		energyCover = new FlxSprite();
+		energyCover.makeGraphic(Std.int(FlxG.width * 0.1), Std.int(FlxG.height * 0.1), FlxColor.WHITE);
+		energyCover.setPosition(FlxG.width * 0.45, FlxG.height * 0.9);
+		add(energyCover);
+		shieldValue = new FlxSprite();
+		shieldValue.makeGraphic(Std.int(FlxG.width * 0.1), Std.int(FlxG.height * 0.1), FlxColor.BLUE);
+		shieldValue.setPosition(FlxG.width * 0.55, FlxG.height * 0.8);
+		add(shieldValue);
+		shieldCover = new FlxSprite();
+		shieldCover.makeGraphic(Std.int(FlxG.width * 0.1), Std.int(FlxG.height * 0.1), FlxColor.WHITE);
+		shieldCover.setPosition(FlxG.width * 0.55, FlxG.height * 0.9);
+		add(shieldCover);
+		
+		//pozor!!! při nasazení textur barů je nutné řešit i setové metody
+		SetHitpoints(50, 100);
+		SetShield(33, 100);
+		
 		
 		//pro nastavení počáteční hodnoty boostu
 		BoostShieldButton();
 	}
+	public function SetHitpoints(value:Int, max:Int):Void 
+	{
+		//dostat procento vlastnosti
+		var valuepercent = (value / (max / 100));
+		//převést na procento vysunutí
+		var coverratio = valuepercent * (hitpointsValue.height / 100);
+		//vysunout
+		hitpointsValue.y = FlxG.height * 0.9 - coverratio;
+	}
+	public function SetShield(value:Int, max:Int):Void 
+	{
+		//dostat procento vlastnosti
+		var valuepercent = (value / (max / 100));
+		//převést na procento vysunutí
+		var coverratio = valuepercent * (shieldValue.height / 100);
+		//vysunout
+		shieldValue.y = FlxG.height * 0.9 - coverratio;
+	}
+	public function SetEnergy(value:Int, max:Int):Void
+	{
+		//dostat procento vlastnosti
+		var valuepercent = (value / (max / 100));
+		//převést na procento vysunutí
+		var coverratio = valuepercent * (energyValue.height / 100);
+		//vysunout
+		energyValue.y = FlxG.height * 0.9 - coverratio;
+	}
+	
 	
 	/**
 	 * Metoda vracející vlastnost zvolenou pro boost.
 	 * @return
 	 */
 	public function GetBoostStat():StatName { return chosenBoostStat; }
-	/**
-	 * Metoda nastaví text do textboxu. Přepíše defaultní hodnoty!
-	 * @param	text
-	 */
-	public function SetText(text:String):Void 
-	{
-		textBox.text = text;
-	}
-	/**
-	 * Tato metoda nastaví hodnoty do textboxu v dané formátu.
-	 * @param	HP zdraví lodě v procentech
-	 * @param	Shield stav štítu v procentech
-	 * @param	RegenRate hodnota regenerace štítu
-	 * @param	WeaponPower síla zbraně
-	 */
-	public function ChangeValues(HP:Int, Shield:Int, RegenRate:Int, WeaponPower:Int):Void 
-	{
-		//todo
-		textBox.text = "HULL    |||||||||||||||||||| 100%" + "\nSHIELD |||||||||||||||||||| 100%" + "\nSHIELD REGEN RATE 5" + "\nWEAPON EFFICIENCY 15";
-
-	}
 	/**
 	 * Tato metoda nastaví příznak tlačítka 
 	 */

@@ -69,7 +69,7 @@ class PlayState extends FlxState
 		//SetButtons();
 		
 		//inicializace lodí
-		player = Player.getPlayer();	
+		player = Player.getPlayer();		
 		add(player);
 		enemy = new Enemy();	
 		add(enemy);		
@@ -182,6 +182,9 @@ class PlayState extends FlxState
 					enemy.AimedForWeapons(player.AimForWeapons());
 			}
 			
+			ui.SetEnergy(player.GetEnergyValue(), player.GetMaxEnergyValue());
+			ui.SetHitpoints(player.GetHull(), player.GetMaxHull());
+			ui.SetShield(player.GetShield(), player.GetMaxShield());
 			
 					
 			

@@ -40,6 +40,11 @@ class Player extends Ship
 		
 	}
 	
+	public static function NullPlayer()
+	{
+		player = null;
+	}
+	
 	public static inline function getPlayer():Player
 	{
 		if (player == null)

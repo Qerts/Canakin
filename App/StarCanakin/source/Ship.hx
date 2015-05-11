@@ -339,6 +339,11 @@ class Ship extends FlxSpriteGroup
 	{
 		return currentShield;
 	}
+	public function GetMaxShield():Int 
+	{
+		return shield;
+	}
+	
 	
 	/**
 	 * ziskani aktualniho poctu hp
@@ -347,6 +352,10 @@ class Ship extends FlxSpriteGroup
 	public function GetHull():Int 
 	{
 		return currentHP;
+	}
+	public function GetMaxHull():Int 
+	{
+		return hitpoints;
 	}
 	
 	/**
@@ -544,4 +553,5 @@ class Ship extends FlxSpriteGroup
 	}
 	
 	public function GetEnergyValue():Int { return currentEnergy; }
+	public function GetMaxEnergyValue():Int { return energyLevel; }
 }

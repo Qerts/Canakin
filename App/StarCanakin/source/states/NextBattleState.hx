@@ -18,7 +18,7 @@ class NextBattleState extends FlxState
 	override public function create():Void 
 	{
 		super.create();
-		Player.getPlayer().resetStats();
+		
 	}
 	
 	override public function update():Void 

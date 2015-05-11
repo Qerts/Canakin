@@ -16,6 +16,9 @@ class Player extends Ship
 	var cam:FlxCamera;
 	var testText:FlxTextField;
 	
+	var defaultShield:Int;
+	var defaultHull:Int;
+	
 	
 	public function new() 
 	{
@@ -38,12 +41,12 @@ class Player extends Ship
 		
 		add(ship);
 		
+		defaultShield = shield;
+		defaultHull = hitpoints;
+		
 	}
 	
-	public static function NullPlayer()
-	{
-		player = null;
-	}
+	
 	
 	public static inline function getPlayer():Player
 	{

@@ -135,7 +135,7 @@ class Ship extends FlxSpriteGroup
 	 * vytvori vlastnosti lode
 	 * @param level vytvorene lode
 	 */
-	private function initStats(level:Int = 10) 
+	public function initStats(level:Int = 10) 
 	{
 		hitpoints = FlxRandom.intRanged(6 + level, 9 + level);
 		

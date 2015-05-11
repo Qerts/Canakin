@@ -214,14 +214,14 @@ class PlayState extends FlxState
 		if (enemy.GetHull() < 1)
 		{
 			player.destroy();
-			player = new Player();
+			//player = new Player();
 			FlxG.switchState(new NextBattleState());
 		}
 		
 		if (player.GetHull() < 1)
 		{
 			player.destroy();
-			player = new Player();
+			//player = new Player();
 			FlxG.switchState(new GameOverState());
 		}
 	}
